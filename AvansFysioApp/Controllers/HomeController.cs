@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AvansFysioApp.Controllers
 {
-    //[Authorize(Policy = "PhysiotherapistOnly")]   
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private IRepo repository;
@@ -27,12 +27,14 @@ namespace AvansFysioApp.Controllers
             return View(repository.Patients());
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
         public ViewResult AddPatientView()
         {
             return View();
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpPost]
         public ViewResult AddPatientView(Patient patient)
         {
@@ -68,8 +70,7 @@ namespace AvansFysioApp.Controllers
                 return View();
             }
         }
-
-        [Authorize]
+        
         public IActionResult PatientList()
         {
             return View("PatientList", repository.Patients());
