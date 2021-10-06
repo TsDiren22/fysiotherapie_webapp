@@ -1,0 +1,40 @@
+﻿@model AvansFysioAppDomain.Domain.Patient
+
+<div class="form-group">
+    <table style="width:100%">
+        <tr>
+            <th>Name:</th>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <th>Telephone:</th>
+            <td>@Model.Phone</td>
+        </tr>
+        <tr>
+            <th>Occupation:</th>
+            <td>@Model.Occupation</td>
+        </tr>
+        <tr>
+            <th>Student or worker ID:</th>
+            <td>@Model.OccupationId</td>
+        </tr>
+        <tr>
+            <th>Birthday:</th>
+            <td>@Model.Birthday.Value.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>Gender:</th>
+            <td>@Model.Gender</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <a asp-action="EditPatientView" asp-route-id="@Model.PatientId">Edit</a> |
+    <a asp-action="PatientList">Back to List</a>
+    <a asp-action="AddFileView">Add to a patient file</a>
+</div>
