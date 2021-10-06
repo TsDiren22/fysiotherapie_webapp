@@ -1,0 +1,91 @@
+{
+  "version": 3,
+  "targets": {
+    "net5.0": {
+      "AvansFysioAppDomain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/AvansFysioAppDomain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AvansFysioAppDomain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AvansFysioAppDomain/1.0.0": {
+      "type": "project",
+      "path": "../AvansFysioAppDomain/AvansFysioAppDomain.csproj",
+      "msbuildProject": "../AvansFysioAppDomain/AvansFysioAppDomain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net5.0": [
+      "AvansFysioAppDomain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\diren\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppDomainServices\\AvansFysioAppDomainServices.csproj",
+      "projectName": "AvansFysioAppDomainServices",
+      "projectPath": "C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppDomainServices\\AvansFysioAppDomainServices.csproj",
+      "packagesPath": "C:\\Users\\diren\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppDomainServices\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\diren\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net5.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://packagesource": {}
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "projectReferences": {
+            "C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppDomain\\AvansFysioAppDomain.csproj": {
+              "projectPath": "C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppDomain\\AvansFysioAppDomain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net5.0": {
+        "targetAlias": "net5.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

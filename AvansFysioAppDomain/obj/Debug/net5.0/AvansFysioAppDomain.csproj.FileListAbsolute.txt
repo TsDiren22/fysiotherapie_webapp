@@ -1,0 +1,16 @@
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\AvansFysioAppDomain.exe
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\AvansFysioAppDomain.deps.json
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\AvansFysioAppDomain.runtimeconfig.json
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\AvansFysioAppDomain.runtimeconfig.dev.json
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\AvansFysioAppDomain.dll
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\ref\AvansFysioAppDomain.dll
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\AvansFysioAppDomain.pdb
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.csproj.AssemblyReference.cache
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.AssemblyInfoInputs.cache
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.AssemblyInfo.cs
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.csproj.CoreCompileInputs.cache
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.dll
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\ref\AvansFysioAppDomain.dll
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.pdb
+C:\Users\diren\source\repos\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.genruntimeconfig.cache
