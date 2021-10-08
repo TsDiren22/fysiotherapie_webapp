@@ -21,7 +21,7 @@ namespace AvansFysioApp.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
 
-            IdentityData.EnsurePopulated(userManager).Wait();
+            //IdentityData.EnsurePopulated(userManager).Wait();
         }
         
         public IActionResult Login(string returnUrl)
