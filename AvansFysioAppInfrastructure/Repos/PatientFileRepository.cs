@@ -25,6 +25,19 @@ namespace AvansFysioAppInfrastructure.Repos
             return context.PatientFiles.ToList();
         }
 
+        public PatientFile FindFileWithPatientId(int id)
+        {
+            foreach (var patientFile in patientFiles)
+            {
+                if (patientFile.PatientId == id)
+                {
+                    return patientFile;
+                }
+            }
+
+            return null;
+        }
+
         public void AddPatientFile(PatientFile patientFile)
         {
             context.PatientFiles.Add(patientFile);

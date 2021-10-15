@@ -8,7 +8,8 @@ namespace AvansFysioAppDomainServices.DomainServices
 {
     public interface IPhysiotherapistRepo
     {
-        IEnumerable<Physiotherapist> physiotherapists();
-        Physiotherapist getPhysiotherapist(int id);
+        IEnumerable<Physiotherapist> Physiotherapists();
+        Physiotherapist GetPhysiotherapist(int id);
+        void UpdatePhysiotherapist(Physiotherapist physiotherapist);
     }
 }

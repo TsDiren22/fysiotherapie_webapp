@@ -1,0 +1,64 @@
+﻿@using AvansFysioAppDomain.Domain
+@model PatientFile
+
+<form asp-action="UpdateFileView" method="post" class="m-2">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <input asp-for="PatientId" type="hidden"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Age">Age:</label>
+        <input asp-for="Age" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DescriptionComplaintsGlobal">DescriptionComplaintsGlobal:</label>
+        <input asp-for="DescriptionComplaintsGlobal" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DiagnosisNumber">Diagnosis number:</label>
+        <input asp-for="DiagnosisNumber" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="IntakeById">Intake by:</label>
+        <select class="form-control" asp-for="IntakeById" asp-items="@ViewBag.Physiotherapists"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="SupervisionById">Supervision by:</label>
+        <select class="form-control" asp-for="SupervisionById" asp-items="@ViewBag.Physiotherapists"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="HeadPractitionerId">HeadPractitioner:</label>
+        <select class="form-control" asp-for="HeadPractitionerId" asp-items="@ViewBag.Physiotherapists"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfRegister">DateOfRegister:</label>
+        <input asp-for="DateOfRegister" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfEnd">DateOfEnd:</label>
+        <input asp-for="DateOfEnd" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Remark">Remark:</label>
+        <input asp-for="Remark" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TreatmentPlan">TreatmentPlan:</label>
+        <input asp-for="TreatmentPlan" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Treatments">Treatments:</label>
+        <input asp-for="Treatments" class="form-control" />
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a asp-action="PatientList" class="btn btn-secondary">Cancel</a>
+
+</form>

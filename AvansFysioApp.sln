@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansFysioApp", "AvansFysio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FysioUnitTest", "FysioUnitTest\FysioUnitTest.csproj", "{BCD7BCCE-65DA-4545-9C94-AEFF2F0AFA4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvansFysioAppDomain", "AvansFysioAppDomain\AvansFysioAppDomain.csproj", "{E15F8437-6E69-46E4-9249-04B1796C24C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansFysioAppDomain", "AvansFysioAppDomain\AvansFysioAppDomain.csproj", "{E15F8437-6E69-46E4-9249-04B1796C24C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvansFysioAppDomainServices", "AvansFysioAppDomainServices\AvansFysioAppDomainServices.csproj", "{778BFB4E-8593-4F00-A2A6-86942F6AA38E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansFysioAppDomainServices", "AvansFysioAppDomainServices\AvansFysioAppDomainServices.csproj", "{778BFB4E-8593-4F00-A2A6-86942F6AA38E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvansFysioAppInfrastructure", "AvansFysioAppInfrastructure\AvansFysioAppInfrastructure.csproj", "{0288B883-622E-4F97-860C-C6D4E37C98D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansFysioAppInfrastructure", "AvansFysioAppInfrastructure\AvansFysioAppInfrastructure.csproj", "{0288B883-622E-4F97-860C-C6D4E37C98D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvansPhysioAppWebAPI", "AvansPhysioAppWebAPI\AvansPhysioAppWebAPI.csproj", "{31B0E463-FA84-4E4E-86EC-475A8381CF37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0288B883-622E-4F97-860C-C6D4E37C98D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0288B883-622E-4F97-860C-C6D4E37C98D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0288B883-622E-4F97-860C-C6D4E37C98D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31B0E463-FA84-4E4E-86EC-475A8381CF37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31B0E463-FA84-4E4E-86EC-475A8381CF37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31B0E463-FA84-4E4E-86EC-475A8381CF37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31B0E463-FA84-4E4E-86EC-475A8381CF37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

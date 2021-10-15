@@ -370,3 +370,4 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\ref\AvansFysioApp.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.genruntimeconfig.cache
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\UpdateFileView.cshtml.g.cs

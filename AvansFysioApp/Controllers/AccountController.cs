@@ -21,7 +21,7 @@ namespace AvansFysioApp.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
 
-            //IdentityData.EnsurePopulated(userManager).Wait();
+            IdentityData.EnsurePopulated(userManager).Wait();
         }
         
         public IActionResult Login(string returnUrl)
@@ -57,7 +57,6 @@ namespace AvansFysioApp.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterModel registerModel)
         {
             if (ModelState.IsValid)
@@ -74,9 +73,7 @@ namespace AvansFysioApp.Controllers
                     {
                         return RedirectToAction("Index", "Home");
                     }
-                    ModelState.AddModelError("", "Try a different password or username!");
                 }
-                ModelState.AddModelError("", "Try a different password or username!");
             }
 
             return View();

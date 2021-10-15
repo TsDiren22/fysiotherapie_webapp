@@ -15,7 +15,7 @@ namespace AvansFysioAppInfrastructure.Seed
 
         public static async Task EnsurePopulated(UserManager<IdentityUser> userManager)
         {
-            IdentityUser user = await userManager.FindByIdAsync(physiotherapistUser);
+            IdentityUser user = await userManager.FindByNameAsync(physiotherapistUser);
             if (user == null)
             {
                 user = new IdentityUser("Physiotherapist");
@@ -23,7 +23,7 @@ namespace AvansFysioAppInfrastructure.Seed
                 await userManager.AddClaimAsync(user, new Claim("Physiotherapist", "true"));
             }
 
-            IdentityUser player = await userManager.FindByIdAsync(intern);
+            IdentityUser player = await userManager.FindByNameAsync(intern);
             if (player == null)
             {
                 player = new IdentityUser("Intern");

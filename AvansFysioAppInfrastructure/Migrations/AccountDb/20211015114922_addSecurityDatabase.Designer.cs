@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AvansFysioAppInfrastructure.Migrations.AccountDb
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20211005134712_addAccountDatabase")]
-    partial class addAccountDatabase
+    [Migration("20211015114922_addSecurityDatabase")]
+    partial class addSecurityDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

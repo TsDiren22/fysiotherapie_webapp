@@ -12,5 +12,6 @@ namespace AvansFysioAppDomainServices.DomainServices
         void UpdatePatientFile(PatientFile patientFile);
         PatientFile GetPatientFile(int id);
         IEnumerable<PatientFile> Responses();
+        PatientFile FindFileWithPatientId(int id);
     }
 }

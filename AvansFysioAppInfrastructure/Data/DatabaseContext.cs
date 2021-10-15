@@ -17,7 +17,6 @@ namespace AvansFysioAppInfrastructure.Data
 
         public DbSet<Physiotherapist> Physiotherapists { get; set; }
 
-        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -43,6 +42,5 @@ namespace AvansFysioAppInfrastructure.Data
                     BigId = 321
                 });
         }
-        */
     }
 }

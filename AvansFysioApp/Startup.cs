@@ -26,8 +26,10 @@ namespace AvansFysioApp
             services.AddScoped<IRepo, Repository>();
             services.AddScoped<PatientFileIRepo, PatientFileRepository>();
             services.AddScoped<IPhysiotherapistRepo, PhysiotherapistRepo>();
+            services.AddScoped<OperationIRepo, OperationRepo>();
+            services.AddScoped<DiagnosisIRepo, DiagnosisRepo>();
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-
+            services.AddDbContext<MasterDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterData")));
             services.AddDbContext<AccountDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Security")));
             services.AddIdentity<IdentityUser, IdentityRole>(config => {
                 config.Password.RequiredLength = 4;

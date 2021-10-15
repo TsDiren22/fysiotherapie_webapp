@@ -12,12 +12,10 @@ namespace AvansFysioAppInfrastructure.Repos
     public class Repository : IRepo
     {
         private DatabaseContext context;
-        private DbSet<Patient> patients;
 
         public Repository(DatabaseContext context)
         {
             this.context = context;
-            this.patients = context.Set<Patient>();
         }
 
         public IEnumerable<Patient> Patients()
@@ -40,7 +38,7 @@ namespace AvansFysioAppInfrastructure.Repos
 
         public void UpdatePatient(Patient patient)
         {
-            Patient exist = this.patients.Find(patient.PatientId);
+            Patient exist = this.context.Set<Patient>().Find(patient.PatientId);
             this.context.Entry(exist).CurrentValues.SetValues(patient);
 
             this.context.SaveChanges();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace AvansFysioAppDomain.Domain
 
         public int Age { get; set; }
 
+        //Required(ErrorMessage = "Please fill in the description of the complaints!")]
         public string DescriptionComplaintsGlobal { get; set; }
 
         public int DiagnosisNumber { get; set; }
@@ -30,14 +32,17 @@ namespace AvansFysioAppDomain.Domain
 
         public int? HeadPractitionerId { get; set; }
 
+        //[Required(ErrorMessage = "Please fill in the date of registration!")]
         public DateTime DateOfRegister { get; set; }
 
         public DateTime DateOfEnd { get; set; }
 
+        //[Required(ErrorMessage = "Please fill in the remark!")]
         public string Remark { get; set; }
 
+        //[Required(ErrorMessage = "Please fill in the treatment plan!")]
         public string TreatmentPlan { get; set; }
-
+        //[Required(ErrorMessage = "Please fill in the treatments")]
         public string Treatments { get; set; }
 
     }

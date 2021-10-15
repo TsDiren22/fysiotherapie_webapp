@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AvansFysioApp.Controllers
 {
-    //[AllowAnonymous]
     public class HomeController : Controller
     {
         private IRepo repository;
@@ -27,48 +26,41 @@ namespace AvansFysioApp.Controllers
             return View(repository.Patients());
         }
 
-        //[Authorize(Policy = "PhysiotherapistOnly")]
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
-        public ViewResult AddPatientView()
+        public ActionResult AddPatientView()
         {
             return View();
         }
 
-        //[Authorize(Policy = "PhysiotherapistOnly")]
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpPost]
-        public ViewResult AddPatientView(Patient patient)
+        public ActionResult AddPatientView(Patient patient)
         {
             if (ModelState.IsValid)
             {
                 repository.AddPatient(patient);
-                return View("PatientList", repository.Patients());
-            }   
-            else
-            {
-                return View();
+                return RedirectToAction("DetailView", new { id = patient.PatientId });
             }
-        }
+            else return View(patient);
+            }
 
         [HttpGet]
-        public ViewResult EditPatientView(int id)
+        public ActionResult EditPatientView(int id)
         {
-            //Krijg patient id mee en stuur het naar de edit view van patient
             Patient patient = repository.GetPatient(id);
             return View(patient);
         }
 
         [HttpPost]
-        public ViewResult EditPatientView(Patient patient)
+        public ActionResult EditPatientView(Patient patient)
         {
             if (ModelState.IsValid)
             {
                 repository.UpdatePatient(patient);
-                return View("PatientList", repository.Patients());
+                return RedirectToAction("DetailView", new {id = patient.PatientId});
             }
-            else
-            {
-                return View();
-            }
+            else return View(patient);
         }
         
         public IActionResult PatientList()
@@ -77,30 +69,41 @@ namespace AvansFysioApp.Controllers
         }
 
         [HttpGet]
-        public ViewResult DetailView(int id)
+        public ActionResult DetailView(int id)
         {
             Patient patient = repository.GetPatient(id);
+            PatientFile patientFile = fileRepository.FindFileWithPatientId(id);
+
+            physiotherapistRepo.Physiotherapists();
+
+            List<PatientFile> pf = new List<PatientFile>();
+            pf.Add(patientFile);
+            ViewBag.PatientFile = pf;
             return View("DetailView", patient);
         }
 
-        [HttpGet]
-        public ViewResult AddFileView()
+        public void AddPatientsInViewbag()
         {
-            var patients = repository.Patients().Prepend(new Patient(){ PatientId = -1, Name = "Select a patient"});
+            var patients = repository.Patients().Prepend(new Patient() { PatientId = -1, Name = "Select a patient" });
             ViewBag.Patients = new SelectList(patients, "PatientId", "Name");
+        }
 
-
-            var physios = physiotherapistRepo.physiotherapists().Prepend(new Physiotherapist() {Id = -1, Name = "Select a physiotherapist"});
+        public void AddPhysiotherapistsInViewbag()
+        {
+            var physios = physiotherapistRepo.Physiotherapists().Prepend(new Physiotherapist() { Id = -1, Name = "Select a physiotherapist" });
             ViewBag.Physiotherapists = new SelectList(physios, "Id", "Name");
+        }
 
-
+        [HttpGet]
+        public ActionResult AddFileView()
+        {
+            AddPatientsInViewbag();
+            AddPhysiotherapistsInViewbag();
             return View();
         }
 
-
-
         [HttpPost]
-        public ViewResult AddFileView(PatientFile patientFile)
+        public ActionResult AddFileView(PatientFile patientFile)
         {
             if (ModelState.IsValid)
             {
@@ -115,12 +118,30 @@ namespace AvansFysioApp.Controllers
                 }
 
                 fileRepository.AddPatientFile(patientFile);
-                return View("DetailView", patient);
+                return RedirectToAction("DetailView", new { id = patientFile.PatientId });
+
             }
-            else
+            else return View(patientFile);
+            }
+
+        [HttpGet]
+        public ActionResult UpdateFileView(int id)
+        {
+            AddPatientsInViewbag();
+            AddPhysiotherapistsInViewbag();
+            PatientFile patientFile = fileRepository.GetPatientFile(id);
+            return View(patientFile);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateFileView(PatientFile patientFile)
+        {
+            if (ModelState.IsValid)
             {
-                return View();
+                fileRepository.UpdatePatientFile(patientFile);
+                return RedirectToAction("DetailView", new { id = patientFile.PatientId });
             }
+            else return View(patientFile);
         }
 
     }

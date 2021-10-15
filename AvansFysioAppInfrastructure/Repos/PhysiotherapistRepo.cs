@@ -13,22 +13,27 @@ namespace AvansFysioAppInfrastructure.Repos
     {
 
         private DatabaseContext context;
-        private DbSet<Physiotherapist> physiotherapist;
 
         public PhysiotherapistRepo(DatabaseContext context)
         {
             this.context = context;
-            this.physiotherapist = context.Set<Physiotherapist>();
         }
 
-        public IEnumerable<Physiotherapist> physiotherapists()
+        public IEnumerable<Physiotherapist> Physiotherapists()
         {
             return context.Physiotherapists.ToList();
         }
 
-        public Physiotherapist getPhysiotherapist(int id)
+        public Physiotherapist GetPhysiotherapist(int id)
         {
-            return physiotherapists().FirstOrDefault(i => i.Id == id);
+            return Physiotherapists().FirstOrDefault(i => i.Id == id);
+        }
+
+        public void UpdatePhysiotherapist(Physiotherapist physio)
+        {
+            context.Physiotherapists.Attach(physio);
+            context.Physiotherapists.Remove(physio);
+            context.SaveChanges();
         }
     }
 }
