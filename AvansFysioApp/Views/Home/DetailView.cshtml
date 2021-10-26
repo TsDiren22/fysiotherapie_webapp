@@ -1,5 +1,5 @@
 ﻿@using AvansFysioAppDomain.Domain
-@model AvansFysioAppDomain.Domain.Patient
+@model Patient
 
 <div class="form-group">
     <table style="width: 100%">
@@ -35,15 +35,17 @@
             <th>Gender:</th>
             <td>@Model.Gender</td>
         </tr>
-    </table>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
 
-    <br /><br />
 
-    @foreach (PatientFile pf in ViewBag.PatientFile)
-    {
-        @if (pf != null)
+        @foreach (PatientFile pf in ViewBag.PatientFile)
         {
-            <table style="width: 95%">
+            @if (pf != null)
+            {
                 <tr>
                     <th><h3>Patient file:</h3></th>
                     <td><a asp-action="UpdateFileView" asp-route-id="@pf.Id">Edit patient file</a></td>
@@ -96,14 +98,16 @@
                     <th>Treatments:</th>
                     <td>@pf.Treatments</td>
                 </tr>
-            </table>
             }
-        @if (pf == null)
-        {
-            <a asp-action="AddFileView">Add to a patient file</a>
+            @if (pf == null)
+            {
+                <tr>
+                    <td><a asp-action="AddFileView">Add to a patient file</a></td>
+                </tr>
+                
+            }
         }
-    }
-
+    </table>
 </div>
 
 <br />

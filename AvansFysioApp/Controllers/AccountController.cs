@@ -48,6 +48,7 @@ namespace AvansFysioApp.Controllers
                 }
 
             }
+            ModelState.AddModelError("", "Invalid username or password!");
             return View(loginModel);
         }
 

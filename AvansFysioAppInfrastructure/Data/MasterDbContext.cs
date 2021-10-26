@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace AvansFysioAppInfrastructure.Data
 
             StreamReader readerDiagnosis =
                 new StreamReader(
-                    "C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppInfrastructure\\Seed\\Vektis lijst diagnoses gecorrigeerd (2).csv");
+                    "..\\AvansFysioAppInfrastructure\\Seed\\Vektis lijst diagnoses gecorrigeerd (2).csv");
             {
                 bool isFirst = true;
                 while (!readerDiagnosis.EndOfStream)
@@ -73,7 +73,7 @@ namespace AvansFysioAppInfrastructure.Data
         {
             List<Operation> list = new List<Operation>();
 
-            StreamReader readerOperation = new StreamReader("C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppInfrastructure\\Seed\\Vektis lijst verrichtingen (1).csv");
+            StreamReader readerOperation = new StreamReader("..\\AvansFysioAppInfrastructure\\Seed\\Vektis lijst verrichtingen (1).csv");
             {
 
                 bool isFirst = true;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
@@ -45,6 +46,7 @@ namespace AvansFysioApp.Controllers
             else return View(patient);
             }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
         public ActionResult EditPatientView(int id)
         {
@@ -52,6 +54,7 @@ namespace AvansFysioApp.Controllers
             return View(patient);
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpPost]
         public ActionResult EditPatientView(Patient patient)
         {
@@ -97,9 +100,9 @@ namespace AvansFysioApp.Controllers
         [HttpGet]
         public ActionResult AddFileView()
         {
-            AddPatientsInViewbag();
-            AddPhysiotherapistsInViewbag();
-            return View();
+                AddPhysiotherapistsInViewbag();
+                AddPatientsInViewbag();
+                return View();
         }
 
         [HttpPost]
@@ -107,16 +110,7 @@ namespace AvansFysioApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Patient patient = null;
-
-                foreach (Patient p in repository.Patients())
-                {
-                    if (p.PatientId == patientFile.PatientId)
-                    {
-                        patient = p;
-                    }
-                }
-
+                repository.Patients();
                 fileRepository.AddPatientFile(patientFile);
                 return RedirectToAction("DetailView", new { id = patientFile.PatientId });
 

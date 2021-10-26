@@ -60,6 +60,15 @@ namespace AvansPhysioAppWebAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapControllerRoute(
+                    name: "Get",
+                    pattern: "Diagnosis/{id}",
+                    defaults: new { controller = "DiagnosisController", action = "Get" });
+                endpoints.MapControllerRoute(
+                    name: "Get",
+                    pattern: "Operation/{id}",
+                    defaults: new { controller = "OperationController", action = "Get" });
             });
         }
     }
