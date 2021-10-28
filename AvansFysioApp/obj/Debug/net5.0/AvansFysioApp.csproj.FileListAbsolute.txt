@@ -353,7 +353,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\AddPatientView.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\DetailView.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\EditPatientView.cshtml.g.cs
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\PatientList.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Shared\Components\PatientAmount\Default.cshtml.g.cs
@@ -371,3 +370,9 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.genruntimeconfig.cache
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\UpdateFileView.cshtml.g.cs
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\System.Net.Http.Formatting.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\FindDiagnosis.cshtml.g.cs
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\AddAppointment.cshtml.g.cs
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\AddSession.cshtml.g.cs
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs

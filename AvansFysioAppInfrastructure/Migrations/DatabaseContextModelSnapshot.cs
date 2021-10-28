@@ -19,6 +19,55 @@ namespace AvansFysioAppInfrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AppointmentBegin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("AppointmentEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("HeadPhysiotherapistId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SessionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HeadPhysiotherapistId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("SessionId");
+
+                    b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Operation", b =>
+                {
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("MandatoryExplanation")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("Operation");
+                });
+
             modelBuilder.Entity("AvansFysioAppDomain.Domain.Patient", b =>
                 {
                     b.Property<int>("PatientId")
@@ -77,8 +126,8 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<string>("DescriptionComplaintsGlobal")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiagnosisNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("DiagnosisNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("HeadPractitionerId")
                         .HasColumnType("int");
@@ -95,8 +144,8 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<int?>("SupervisionById")
                         .HasColumnType("int");
 
-                    b.Property<string>("TreatmentPlan")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TreatmentPlanId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Treatments")
                         .HasColumnType("nvarchar(max)");
@@ -110,6 +159,8 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.HasIndex("PatientId");
 
                     b.HasIndex("SupervisionById");
+
+                    b.HasIndex("TreatmentPlanId");
 
                     b.ToTable("PatientFiles");
                 });
@@ -145,7 +196,7 @@ namespace AvansFysioAppInfrastructure.Migrations
                         {
                             Id = 99,
                             BigId = 123,
-                            Email = "abc@def.com",
+                            Email = "abc@abc.com",
                             EmployeeId = 123,
                             Name = "Diren Physio",
                             Phone = "0612345678"
@@ -154,11 +205,114 @@ namespace AvansFysioAppInfrastructure.Migrations
                         {
                             Id = 100,
                             BigId = 321,
-                            Email = "ghi@jkl.com",
+                            Email = "def@def.com",
                             EmployeeId = 321,
                             Name = "Justin Physio",
                             Phone = "0687654321"
                         });
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Session", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HeadPhysiotherapistId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TreatmentPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HeadPhysiotherapistId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("TreatmentPlanId");
+
+                    b.ToTable("Sessions");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Treatment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateOfTreatment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PhysiotherapistId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Room")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeValue")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhysiotherapistId");
+
+                    b.HasIndex("TypeValue");
+
+                    b.ToTable("Treatments");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.TreatmentPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MaxSessions")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TreatmentPlans");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Appointment", b =>
+                {
+                    b.HasOne("AvansFysioAppDomain.Domain.Physiotherapist", "HeadPhysiotherapist")
+                        .WithMany()
+                        .HasForeignKey("HeadPhysiotherapistId");
+
+                    b.HasOne("AvansFysioAppDomain.Domain.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("AvansFysioAppDomain.Domain.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId");
+
+                    b.Navigation("HeadPhysiotherapist");
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Session");
                 });
 
             modelBuilder.Entity("AvansFysioAppDomain.Domain.PatientFile", b =>
@@ -179,6 +333,10 @@ namespace AvansFysioAppInfrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("SupervisionById");
 
+                    b.HasOne("AvansFysioAppDomain.Domain.TreatmentPlan", "TreatmentPlan")
+                        .WithMany()
+                        .HasForeignKey("TreatmentPlanId");
+
                     b.Navigation("HeadPractitioner");
 
                     b.Navigation("IntakeBy");
@@ -186,6 +344,47 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Navigation("Patient");
 
                     b.Navigation("SupervisionBy");
+
+                    b.Navigation("TreatmentPlan");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Session", b =>
+                {
+                    b.HasOne("AvansFysioAppDomain.Domain.Physiotherapist", "HeadPhysiotherapist")
+                        .WithMany()
+                        .HasForeignKey("HeadPhysiotherapistId");
+
+                    b.HasOne("AvansFysioAppDomain.Domain.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("AvansFysioAppDomain.Domain.TreatmentPlan", null)
+                        .WithMany("AllSession")
+                        .HasForeignKey("TreatmentPlanId");
+
+                    b.Navigation("HeadPhysiotherapist");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Treatment", b =>
+                {
+                    b.HasOne("AvansFysioAppDomain.Domain.Physiotherapist", "Physiotherapist")
+                        .WithMany()
+                        .HasForeignKey("PhysiotherapistId");
+
+                    b.HasOne("AvansFysioAppDomain.Domain.Operation", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeValue");
+
+                    b.Navigation("Physiotherapist");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.TreatmentPlan", b =>
+                {
+                    b.Navigation("AllSession");
                 });
 #pragma warning restore 612, 618
         }

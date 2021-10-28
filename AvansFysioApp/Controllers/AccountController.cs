@@ -64,7 +64,8 @@ namespace AvansFysioApp.Controllers
             {
                 var account = new IdentityUser
                 {
-                    UserName = registerModel.Username
+                    UserName = registerModel.Username,
+                    Email = registerModel.Email
                 };
                 var result = await userManager.CreateAsync(account, registerModel.Password);
                 if (result.Succeeded)

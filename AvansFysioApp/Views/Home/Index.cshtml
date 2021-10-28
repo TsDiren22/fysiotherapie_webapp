@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AvansFysioAppDomain.Domain.Patient>
-<div class="text-center p-2">
-    <a class="btn btn-primary" asp-action="PatientList">List of Patients</a>
-</div>
+﻿@model System.Collections.Generic.IEnumerable<AvansFysioAppDomain.Domain.Patient>
+
+<a asp-action="PatientList">Patient list</a>
+<a asp-action="AddSession">Add Session</a>
+<a asp-action="AddAppointment">Add Appointment</a>

@@ -17,6 +17,14 @@ namespace AvansFysioAppInfrastructure.Data
 
         public DbSet<Physiotherapist> Physiotherapists { get; set; }
 
+        public DbSet<TreatmentPlan> TreatmentPlans { get; set; }
+
+        public DbSet<Session> Sessions { get; set; }
+
+        public DbSet<Treatment> Treatments { get; set; }
+
+        public DbSet<Appointment> Appointments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -26,7 +34,7 @@ namespace AvansFysioAppInfrastructure.Data
                 {
                     Id = 99,
                     Name = "Diren Physio",
-                    Email = "abc@def.com",
+                    Email = "abc@abc.com",
                     Phone = "0612345678",
                     EmployeeId = 123,
                     BigId = 123
@@ -36,7 +44,7 @@ namespace AvansFysioAppInfrastructure.Data
                 {
                     Id = 100,
                     Name = "Justin Physio",
-                    Email = "ghi@jkl.com",
+                    Email = "def@def.com",
                     Phone = "0687654321",
                     EmployeeId = 321,
                     BigId = 321

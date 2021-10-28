@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Data;
 using AvansFysioAppInfrastructure.Repos;
+using AvansPhysioAppWebAPI.GraphQl;
+using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Playground;
 using Microsoft.EntityFrameworkCore;
 
 namespace AvansPhysioAppWebAPI
@@ -35,6 +38,8 @@ namespace AvansPhysioAppWebAPI
             services.AddDbContext<MasterDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterData")));
             services.AddScoped<OperationIRepo, OperationRepo>();
             services.AddScoped<DiagnosisIRepo, DiagnosisRepo>();
+            services.AddScoped<GraphQlQueries>();
+            services.AddGraphQLServer().AddType<DiagnosisType>().AddQueryType<GraphQlQueries>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AvansPhysioAppWebAPI", Version = "v1" });
@@ -69,7 +74,14 @@ namespace AvansPhysioAppWebAPI
                     name: "Get",
                     pattern: "Operation/{id}",
                     defaults: new { controller = "OperationController", action = "Get" });
+                endpoints.MapGraphQL();
             });
+
+            app.UsePlayground(new PlaygroundOptions
+            {
+                QueryPath = "/api",
+                Path = "/playground"
+            }); 
         }
     }
 }

@@ -13,5 +13,6 @@ namespace AvansFysioAppDomainServices.DomainServices
         int PatientAmount();
         Patient GetPatient(int id);
         IEnumerable<Patient> Patients();
+        Patient GetPatientByEmail(string email);
     }
 }

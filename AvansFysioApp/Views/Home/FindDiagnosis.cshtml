@@ -1,0 +1,36 @@
+﻿@using AvansFysioAppDomain.Domain
+@model IEnumerable<Diagnosis>
+
+<form asp-controller="Home" asp-action="FindDiagnosis" method="get">
+    <p>
+        Location on Body: <input type="text" name="SearchString"/>
+        <input type="submit" value="Search"/>
+        <button type="submit" value="">Clear</button>
+    </p>
+</form>
+
+<table class="table table-bordered table-striped table-sm">
+    <thead>
+        <tr><th>Code</th><th>Pathology</th><th>Location on body</th><th> </th></tr>
+    </thead>
+    <tbody>
+    <form asp-action="FindDiagnosis" method="post" class="m-2">
+
+        @foreach (Diagnosis item in @Model)
+        {
+            <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Code)</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.Pathology)</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.LocationOnBody)</td>
+                
+                <td>
+                    <input type="submit" value="select" asp-route-id=@item.Code class="btn btn-primary">
+                </td>
+            </tr>
+        }        
+    </form>
+
+    </tbody>
+</table>

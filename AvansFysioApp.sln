@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansFysioApp", "AvansFysioApp\AvansFysioApp.csproj", "{F5E5B919-8BE5-45FA-B159-CAA214AD8C98}"
+	ProjectSection(ProjectDependencies) = postProject
+		{31B0E463-FA84-4E4E-86EC-475A8381CF37} = {31B0E463-FA84-4E4E-86EC-475A8381CF37}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FysioUnitTest", "FysioUnitTest\FysioUnitTest.csproj", "{BCD7BCCE-65DA-4545-9C94-AEFF2F0AFA4A}"
 EndProject
@@ -13,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansFysioAppDomainServices
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansFysioAppInfrastructure", "AvansFysioAppInfrastructure\AvansFysioAppInfrastructure.csproj", "{0288B883-622E-4F97-860C-C6D4E37C98D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvansPhysioAppWebAPI", "AvansPhysioAppWebAPI\AvansPhysioAppWebAPI.csproj", "{31B0E463-FA84-4E4E-86EC-475A8381CF37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvansPhysioAppWebAPI", "AvansPhysioAppWebAPI\AvansPhysioAppWebAPI.csproj", "{31B0E463-FA84-4E4E-86EC-475A8381CF37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

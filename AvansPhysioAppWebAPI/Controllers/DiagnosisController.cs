@@ -21,16 +21,19 @@ namespace AvansPhysioAppWebAPI.Controllers
             this.diagnosisIRepo = diagnosisIRepo;
         }
 
-        [HttpGet]
-        public ActionResult<List<Diagnosis>> Get()
-        {
-            return Ok(diagnosisIRepo.Diagnosis().ToList());
-        }
-
         [HttpGet("{id}")]
         public ActionResult<Diagnosis> Get(string id)
         {
             return Ok(diagnosisIRepo.GetDiagnosis(id));
+        }
+
+        [HttpGet]
+        public ActionResult<List<Diagnosis>> Get([FromQuery] string locationOnBody, [FromQuery] string pathology)
+        {
+            if (locationOnBody != null && pathology != null) return Ok(diagnosisIRepo.GetDiagnosisByParameters(locationOnBody, pathology));
+            else if (locationOnBody != null) return Ok(diagnosisIRepo.GetDiagnosesByLocationOnBody(locationOnBody));
+            else if (pathology != null) return Ok(diagnosisIRepo.GetDiagnosesByPathology(pathology));
+            else return Ok(diagnosisIRepo.Diagnosis().ToList());
         }
     }
 }

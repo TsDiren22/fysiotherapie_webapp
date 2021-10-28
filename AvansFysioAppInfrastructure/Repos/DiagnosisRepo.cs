@@ -39,5 +39,22 @@ namespace AvansFysioAppInfrastructure.Repos
 
             return null;
         }
+
+        public IEnumerable<Diagnosis> GetDiagnosesByLocationOnBody(string location)
+        {
+            return Diagnosis().Where(i => i.LocationOnBody.ToLower().Contains(location.ToLower()));
+
+        }
+
+        public IEnumerable<Diagnosis> GetDiagnosesByPathology(string pathology)
+        {
+            return Diagnosis().Where(i => i.Pathology.ToLower().Contains(pathology.ToLower()));
+
+        }
+
+        public IEnumerable<Diagnosis> GetDiagnosisByParameters(string location, string pathology)
+        {
+            return Diagnosis().Where(i => i.LocationOnBody.ToLower().Contains(location.ToLower()) && i.Pathology.ToLower().Contains(pathology.ToLower()));
+        }
     }
 }

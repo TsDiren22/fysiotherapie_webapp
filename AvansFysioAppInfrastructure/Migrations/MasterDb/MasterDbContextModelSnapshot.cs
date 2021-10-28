@@ -7506,12 +7506,6 @@ namespace AvansFysioAppInfrastructure.Migrations.MasterDb
                         },
                         new
                         {
-                            Code = "",
-                            LocationOnBody = "",
-                            Pathology = ""
-                        },
-                        new
-                        {
                             Code = "3071",
                             LocationOnBody = "Cervicale wervelkolom",
                             Pathology = "Cerebellaire aandoeningen / encephalopathie�n"

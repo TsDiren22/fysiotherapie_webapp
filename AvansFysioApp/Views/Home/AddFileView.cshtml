@@ -5,20 +5,13 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="PatientId">Patient:</label>
-        <select class="form-control" asp-for="PatientId" asp-items="@ViewBag.Patients"></select>
-    </div>
-    <div class="form-group">
-        <label asp-for="Age">Age:</label>
-        <input asp-for="Age" class="form-control" />
+        <select class="form-control" asp-for="PatientId" asp-items="@ViewBag.PatientNoFile"></select>
     </div>
     <div class="form-group">
         <label asp-for="DescriptionComplaintsGlobal">DescriptionComplaintsGlobal:</label>
         <input asp-for="DescriptionComplaintsGlobal" class="form-control" />
     </div>
-    <div class="form-group">
-        <label asp-for="DiagnosisNumber">Diagnosis number:</label>
-        <input asp-for="DiagnosisNumber" class="form-control">
-    </div>
+
     <div class="form-group">
         <label asp-for="IntakeById">Intake by:</label>
         <select class="form-control" asp-for="IntakeById" asp-items="@ViewBag.Physiotherapists"></select>
@@ -48,15 +41,16 @@
     </div>
     
     <div class="form-group">
-        <label asp-for="TreatmentPlan">TreatmentPlan:</label>
-        <input asp-for="TreatmentPlan" class="form-control" />
+        <label asp-for="TreatmentPlan.MaxSessions">Maximum sessions per week:</label>
+        <input asp-for="TreatmentPlan.MaxSessions" class="form-control" />
     </div>    
-
+    
+    <!--
     <div class="form-group">
-        <label asp-for="Treatments">Treatments:</label>
+        <label asp-for="Treatments">Treatments</label>
         <input asp-for="Treatments" class="form-control" />
     </div>
-
+    -->
     <button type="submit" class="btn btn-primary">Add patient</button>
     <a asp-action="PatientList" class="btn btn-secondary">Cancel</a>
 </form>

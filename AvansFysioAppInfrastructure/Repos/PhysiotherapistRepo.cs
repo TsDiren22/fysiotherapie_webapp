@@ -29,11 +29,9 @@ namespace AvansFysioAppInfrastructure.Repos
             return Physiotherapists().FirstOrDefault(i => i.Id == id);
         }
 
-        public void UpdatePhysiotherapist(Physiotherapist physio)
+        public Physiotherapist getPhysiotherapistByEmail(string email)
         {
-            context.Physiotherapists.Attach(physio);
-            context.Physiotherapists.Remove(physio);
-            context.SaveChanges();
+            return Physiotherapists().FirstOrDefault(i => i.Email.Equals(email));
         }
     }
 }

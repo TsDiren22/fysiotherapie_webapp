@@ -40,7 +40,12 @@ namespace AvansFysioAppDomain.Domain
 
         public int GetAge()
         {
-            return DateTime.Today.Year - Birthday.Value.Year;
+            var today = DateTime.Now;
+            
+            var age = today.Year - Birthday.Value.Year;
+            
+            if (today.Month < Birthday.Value.Month || (today.Month == Birthday.Value.Month && today.Day < Birthday.Value.Day)) age--;
+            return age;
         }
     }
 }

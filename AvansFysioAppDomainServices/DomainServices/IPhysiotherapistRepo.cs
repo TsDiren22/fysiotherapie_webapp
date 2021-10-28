@@ -10,6 +10,7 @@ namespace AvansFysioAppDomainServices.DomainServices
     {
         IEnumerable<Physiotherapist> Physiotherapists();
         Physiotherapist GetPhysiotherapist(int id);
-        void UpdatePhysiotherapist(Physiotherapist physiotherapist);
+
+        Physiotherapist getPhysiotherapistByEmail(string email);
     }
 }

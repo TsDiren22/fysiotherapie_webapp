@@ -23,6 +23,11 @@ namespace AvansFysioAppInfrastructure.Repos
             return context.Patients.ToList();
         }
 
+        public Patient GetPatientByEmail(string email)
+        {
+            return Patients().FirstOrDefault(i => i.Email.Equals(email));
+        }
+
         public void AddPatient(Patient response)
         {
             context.Patients.Add(response);
