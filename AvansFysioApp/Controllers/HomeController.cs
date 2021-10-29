@@ -31,8 +31,9 @@ namespace AvansFysioApp.Controllers
         private HttpClient client;
         private IConfiguration configuration;
         private UserManager<IdentityUser> userManager;
+        private OperationIRepo operationIRepo;
 
-        public HomeController(IRepo repository, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, AppointmentIRepo appointmentIRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public HomeController(IRepo repository, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, AppointmentIRepo appointmentIRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
@@ -43,6 +44,7 @@ namespace AvansFysioApp.Controllers
             };
             this.configuration = configuration;
             this.appointmentIRepo = appointmentIRepo;
+            this.operationIRepo = operationIRepo;
             this.sessionIRepo = sessionIRepo;
             this.treatmentIRepo = treatmentIRepo;
             this.treatmentPlanIRepo = treatmentPlanIRepo;
@@ -92,12 +94,14 @@ namespace AvansFysioApp.Controllers
             }
             else return View(patient);
         }
-        
+
+        [Authorize(Policy = "PhysiotherapistOnly")]
         public IActionResult PatientList()
         {
             return View("PatientList", repository.Patients());
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
         public ActionResult DetailView(int id)
         {
@@ -118,6 +122,12 @@ namespace AvansFysioApp.Controllers
             ViewBag.Patients = new SelectList(patients, "PatientId", "Name");
         }
 
+        public void AddPatientFilesInViewbag()
+        {
+            var patientFiles = fileRepository.Responses().Prepend(new PatientFile() { Id = -1, Title = "Select a patient" });
+            ViewBag.PatientFiles = new SelectList(patientFiles, "Id", "Title");
+        }
+
         public void AddPhysiotherapistsInViewbag()
         {
             var physios = physiotherapistRepo.Physiotherapists().Prepend(new Physiotherapist() { Id = -1, Name = "Select a physiotherapist" });
@@ -127,13 +137,29 @@ namespace AvansFysioApp.Controllers
         public void AddSessionsInViewbag(string email)
         {
             Patient patient = repository.GetPatientByEmail(email);
+            Physiotherapist physiotherapist = physiotherapistRepo.getPhysiotherapistByEmail(email);
             List<Session> list = new List<Session>();
             var sessions = list.Prepend(new Session() { Id = -1, Name = "Select a session" });
-            foreach (var session in sessionIRepo.Sessions())
+
+            if (patient != null)
             {
-                if (appointmentIRepo.FindAppointmentWithSessionId(session.Id) == null && session.PatientId == patient.PatientId)
+                foreach (var session in sessionIRepo.Sessions())
                 {
-                    list.Add(session);
+                    if (appointmentIRepo.FindAppointmentWithSessionId(session.Id) == null && session.PatientId == patient.PatientId)
+                    { 
+                        list.Add(session);
+                    }
+                }
+            }
+            else if (physiotherapist != null)
+            {
+                foreach (var session in sessionIRepo.Sessions())
+                {
+                    if (appointmentIRepo.FindAppointmentWithSessionId(session.Id) == null &&
+                        session.HeadPhysiotherapistId == physiotherapist.Id)
+                    {
+                        list.Add(session);
+                    }
                 }
             }
 
@@ -148,6 +174,7 @@ namespace AvansFysioApp.Controllers
             ViewBag.PatientNoFile = new SelectList(list, "PatientId", "Name");
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
         public ActionResult AddFileView()
         {
@@ -156,6 +183,7 @@ namespace AvansFysioApp.Controllers
             return View();
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpPost]
         public ActionResult AddFileView(PatientFile patientFile)
         {
@@ -166,8 +194,6 @@ namespace AvansFysioApp.Controllers
                     Patient patient = repository.GetPatient((int)patientFile.PatientId);
                     patientFile.Age = patient.GetAge();
                 }
-                
-                TempData.Put("patientFile", patientFile);
 
                 repository.Patients();
                 TempData.Put("patientFile", patientFile);
@@ -177,6 +203,7 @@ namespace AvansFysioApp.Controllers
             else return View(patientFile);
             }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
         public ActionResult UpdateFileView(int id)
         {
@@ -186,6 +213,7 @@ namespace AvansFysioApp.Controllers
             return View(patientFile);
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpPost]
         public ActionResult UpdateFileView(PatientFile patientFile)
         {
@@ -212,6 +240,22 @@ namespace AvansFysioApp.Controllers
             return codes;
         }
 
+        private IEnumerable<Operation> GetOperationAsync(string endpoint = "Operation")
+        {
+            var response = client.GetAsync(endpoint);
+            var result = response.Result;
+            IEnumerable<Operation> codes;
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsAsync<List<Operation>>();
+                data.Wait();
+                codes = data.Result;
+            }
+            else codes = Enumerable.Empty<Operation>();
+            return codes;
+        }
+
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
         public IActionResult FindDiagnosis(string searchString = "", string empty = "")
         {
@@ -227,17 +271,80 @@ namespace AvansFysioApp.Controllers
             return View(list);
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpPost]
         public IActionResult FindDiagnosis(string id)
         {
             AddPhysiotherapistsInViewbag();
             AddPatientsInViewbag();
             PatientFile patientFile = TempData.Get<PatientFile>("patientFile");
+            Patient patient = repository.GetPatient((int)patientFile.PatientId);
             patientFile.DiagnosisNumber = id;
+            patientFile.Title = patient.Name;
             fileRepository.AddPatientFile(patientFile);
             return RedirectToAction("DetailView", new { id = patientFile.PatientId });
         }
+        
+        [HttpGet]
+        public IActionResult FindOperation(string searchString = "", string empty = "")
+        {
+            IEnumerable<Operation> list;
+            if (searchString != null)
+            {
+                var endpoint = "Operation";
+                endpoint = QueryHelpers.AddQueryString(endpoint, "Description", searchString);
+                list = GetOperationAsync(endpoint);
+            }
+            else list = GetOperationAsync();
+            
+            return View(list);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> FindOperation(string id)
+        {
+            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            string email = user.Email;
 
+            Treatment treatment = TempData.Get<Treatment>("treatment");
+
+            PatientFile patientFile = fileRepository.GetPatientFile(treatment.PatientFileId);
+            treatment.PatientFile = patientFile;
+
+            Physiotherapist physiotherapist = physiotherapistRepo.getPhysiotherapistByEmail(email);
+            treatment.Physiotherapist = physiotherapist;
+
+            Operation operation = operationIRepo.GetOperation(id);
+            treatment.Type = operation;
+            treatment.Description = operation.Description;
+
+            Debug.WriteLine(treatment.Id + treatment.Description + treatment.PatientFileId + treatment.DateOfTreatment + treatment.PhysiotherapistId + treatment.TypeId);
+            treatmentIRepo.AddTreatment(treatment);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult AddTreatment()
+        {
+            AddPatientFilesInViewbag();
+            return View();
+        }        
+        
+        [HttpPost]
+        public IActionResult AddTreatment(Treatment treatment)
+        {
+            if (ModelState.IsValid)
+            {
+                TempData.Put("treatment", treatment);
+                return RedirectToAction("FindOperation");
+            }
+
+            return View(treatment);
+        }
+
+
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpGet]
         public IActionResult AddSession()
         {
@@ -245,6 +352,7 @@ namespace AvansFysioApp.Controllers
             return View();
         }
 
+        [Authorize(Policy = "PhysiotherapistOnly")]
         [HttpPost]
         public async Task<IActionResult> AddSession(Session session)
         {
@@ -262,6 +370,7 @@ namespace AvansFysioApp.Controllers
             return View("Index");
         }
 
+        [Authorize(Policy = "PatientOrPhysioOnly")]
         [HttpGet]
         public async Task<IActionResult> AddAppointment()
         {
@@ -274,7 +383,7 @@ namespace AvansFysioApp.Controllers
         
 
         [HttpPost]
-        public async Task<IActionResult> AddAppointment(Appointment appointment)
+        public IActionResult AddAppointment(Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -284,10 +393,9 @@ namespace AvansFysioApp.Controllers
                 Physiotherapist physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)session.HeadPhysiotherapistId);
                 appointment.HeadPhysiotherapist = physiotherapist;
 
-                IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
-
-                string email = user.Email;
-                appointment.Patient = repository.GetPatientByEmail(email);
+                Patient patient = repository.GetPatient((int)session.PatientId);
+                appointment.Patient = patient;
+                
                 appointmentIRepo.AddAppointment(appointment);
                 return RedirectToAction();
             }

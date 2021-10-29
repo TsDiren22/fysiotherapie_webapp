@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
@@ -22,9 +23,10 @@ namespace AvansPhysioAppWebAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Operation>> Get()
+        public ActionResult<List<Operation>> Get([FromQuery] bool mandatory, [FromQuery] string description)
         {
-            return Ok(operationIRepo.Operations());
+            if (description != null) return Ok(operationIRepo.GetOperationByDescription(description));
+            else return Ok(operationIRepo.Operations().ToList());
         }
 
         [HttpGet("{id}")]

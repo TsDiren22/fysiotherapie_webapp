@@ -10,6 +10,7 @@ namespace AvansFysioAppDomain.Domain
     {   
         public int Id { get; set; }
         public Patient Patient { get; set; }
+        public string Title { get; set; }
         public int? PatientId { get; set; }
         public int Age { get; set; }
         //Required(ErrorMessage = "Please fill in the description of the complaints!")]
@@ -29,6 +30,6 @@ namespace AvansFysioAppDomain.Domain
         //[Required(ErrorMessage = "Please fill in the treatment plan!")]
         public TreatmentPlan TreatmentPlan { get; set; }
         //[Required(ErrorMessage = "Please fill in the treatments")]
-        public string Treatments { get; set; }
+        public List<Treatment> Treatments { get; set; }
     }
 }

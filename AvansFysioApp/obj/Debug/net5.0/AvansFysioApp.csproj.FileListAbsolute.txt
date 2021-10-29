@@ -376,3 +376,5 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\AddAppointment.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\AddSession.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\AddTreatment.cshtml.g.cs
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Home\FindOperation.cshtml.g.cs

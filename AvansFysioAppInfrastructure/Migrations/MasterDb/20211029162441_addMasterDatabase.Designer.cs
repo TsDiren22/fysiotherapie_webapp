@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AvansFysioAppInfrastructure.Migrations.MasterDb
 {
     [DbContext(typeof(MasterDbContext))]
-    [Migration("20211028200915_AddMasterDatabase")]
-    partial class AddMasterDatabase
+    [Migration("20211029162441_addMasterDatabase")]
+    partial class addMasterDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

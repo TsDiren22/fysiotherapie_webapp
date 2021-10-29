@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AvansFysioAppInfrastructure.Migrations
 {
-    public partial class AddMainDatabase : Migration
+    public partial class addMainDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,41 +70,12 @@ namespace AvansFysioAppInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Treatments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeId = table.Column<int>(type: "int", nullable: true),
-                    TypeValue = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Room = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhysiotherapistId = table.Column<int>(type: "int", nullable: true),
-                    DateOfTreatment = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Treatments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Treatments_Operation_TypeValue",
-                        column: x => x.TypeValue,
-                        principalTable: "Operation",
-                        principalColumn: "Value",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Treatments_Physiotherapists_PhysiotherapistId",
-                        column: x => x.PhysiotherapistId,
-                        principalTable: "Physiotherapists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PatientFiles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientId = table.Column<int>(type: "int", nullable: true),
                     Age = table.Column<int>(type: "int", nullable: false),
                     DescriptionComplaintsGlobal = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -115,8 +86,7 @@ namespace AvansFysioAppInfrastructure.Migrations
                     DateOfRegister = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateOfEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TreatmentPlanId = table.Column<int>(type: "int", nullable: true),
-                    Treatments = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TreatmentPlanId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -184,6 +154,42 @@ namespace AvansFysioAppInfrastructure.Migrations
                         name: "FK_Sessions_TreatmentPlans_TreatmentPlanId",
                         column: x => x.TreatmentPlanId,
                         principalTable: "TreatmentPlans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Treatments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TypeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Room = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhysiotherapistId = table.Column<int>(type: "int", nullable: true),
+                    DateOfTreatment = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PatientFileId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Treatments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Treatments_Operation_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "Operation",
+                        principalColumn: "Value",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Treatments_PatientFiles_PatientFileId",
+                        column: x => x.PatientFileId,
+                        principalTable: "PatientFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Treatments_Physiotherapists_PhysiotherapistId",
+                        column: x => x.PhysiotherapistId,
+                        principalTable: "Physiotherapists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -289,23 +295,25 @@ namespace AvansFysioAppInfrastructure.Migrations
                 column: "TreatmentPlanId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Treatments_PatientFileId",
+                table: "Treatments",
+                column: "PatientFileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Treatments_PhysiotherapistId",
                 table: "Treatments",
                 column: "PhysiotherapistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Treatments_TypeValue",
+                name: "IX_Treatments_TypeId",
                 table: "Treatments",
-                column: "TypeValue");
+                column: "TypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Appointments");
-
-            migrationBuilder.DropTable(
-                name: "PatientFiles");
 
             migrationBuilder.DropTable(
                 name: "Treatments");
@@ -315,6 +323,9 @@ namespace AvansFysioAppInfrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Operation");
+
+            migrationBuilder.DropTable(
+                name: "PatientFiles");
 
             migrationBuilder.DropTable(
                 name: "Patients");

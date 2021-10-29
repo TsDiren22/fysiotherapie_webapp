@@ -40,6 +40,7 @@ namespace AvansFysioApp
                 config.Password.RequireDigit = false;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
+                config.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<AccountDbContext>().AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(config =>
             {
@@ -47,8 +48,12 @@ namespace AvansFysioApp
                 config.LoginPath = "/Account/Login";
             });
 
-            services.AddAuthorization(options => options.AddPolicy("PhysiotherapistOnly", policy => policy.RequireClaim("Physiotherapist")));
-            services.AddAuthorization(options => options.AddPolicy("InternOnly", policy => policy.RequireClaim("Intern")));
+            services.AddAuthorization(options => options.AddPolicy("PhysiotherapistOnly", policy => policy.RequireAssertion(context => context.User.HasClaim(c => (c.Type == "Physiotherapist")))));
+            services.AddAuthorization(options => options.AddPolicy("InternOnly", policy => policy.RequireAssertion(context => context.User.HasClaim(c => (c.Type == "Intern")))));
+            services.AddAuthorization(options => options.AddPolicy("PatientOnly", policy => policy.RequireAssertion(context => context.User.HasClaim(c => (c.Type == "Patient")))));
+            services.AddAuthorization(options => options.AddPolicy("PatientOrPhysioOnly", policy => policy.RequireAssertion(context => context.User.HasClaim(c => (c.Type == "Physiotherapist" || c.Type == "Patient")))));
+            services.AddAuthorization(options => options.AddPolicy("InternOrPhysioOnly", policy => policy.RequireAssertion(context => context.User.HasClaim(c => (c.Type == "Physiotherapist" || c.Type == "Intern")))));
+
             services.AddControllersWithViews();
         }
 

@@ -39,5 +39,20 @@ namespace AvansFysioAppInfrastructure.Repos
 
             return null;
         }
+
+        public IEnumerable<Operation> GetOperationByDescription(string description)
+        {
+            return Operations().Where(i => i.Description.ToLower().Contains(description.ToLower()));
+        }
+
+        public IEnumerable<Operation> GetOperationByMandatory(bool mandatory)
+        {
+            return Operations().Where(i => i.MandatoryExplanation == mandatory);
+        }
+
+        public IEnumerable<Operation> GetOperationByParameters(string description, bool mandatory)
+        {
+            return Operations().Where(i => i.Description.ToLower().Contains(description.ToLower()) && i.MandatoryExplanation == mandatory);
+        }
     }
 }

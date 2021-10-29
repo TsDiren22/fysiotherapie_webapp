@@ -6,6 +6,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AvansFysioApp.Models;
+    using AvansFysioAppDomain.Domain;
+    using AvansFysioAppDomainServices.DomainServices;
+    using AvansFysioAppInfrastructure.Repos;
     using AvansFysioAppInfrastructure.Seed;
     using Microsoft.AspNetCore.Identity;
 
@@ -15,11 +18,13 @@ namespace AvansFysioApp.Controllers
     {
         private UserManager<IdentityUser> userManager;
         private SignInManager<IdentityUser> signInManager;
+        private IRepo repository;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,IRepo repository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.repository = repository;
 
             IdentityData.EnsurePopulated(userManager).Wait();
         }
@@ -67,7 +72,15 @@ namespace AvansFysioApp.Controllers
                     UserName = registerModel.Username,
                     Email = registerModel.Email
                 };
+                
                 var result = await userManager.CreateAsync(account, registerModel.Password);
+
+                Patient patient = repository.GetPatientByEmail(account.Email);
+                if (patient != null)
+                {
+                    await userManager.AddClaimAsync(account, new Claim("Patient", "true"));
+                }
+
                 if (result.Succeeded)
                 {
                     var signIn = await signInManager.PasswordSignInAsync(account, registerModel.Password, false, false);

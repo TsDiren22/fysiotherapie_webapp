@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AvansFysioAppInfrastructure.Migrations.AccountDb
 {
-    public partial class AddAccountDatabase : Migration
+    public partial class addAccountDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -144,11 +144,11 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<int?>("SupervisionById")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("TreatmentPlanId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Treatments")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -258,23 +258,25 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PatientFileId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PhysiotherapistId")
                         .HasColumnType("int");
 
                     b.Property<string>("Room")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypeValue")
+                    b.Property<string>("TypeId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PatientFileId");
+
                     b.HasIndex("PhysiotherapistId");
 
-                    b.HasIndex("TypeValue");
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Treatments");
                 });
@@ -369,17 +371,30 @@ namespace AvansFysioAppInfrastructure.Migrations
 
             modelBuilder.Entity("AvansFysioAppDomain.Domain.Treatment", b =>
                 {
+                    b.HasOne("AvansFysioAppDomain.Domain.PatientFile", "PatientFile")
+                        .WithMany("Treatments")
+                        .HasForeignKey("PatientFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AvansFysioAppDomain.Domain.Physiotherapist", "Physiotherapist")
                         .WithMany()
                         .HasForeignKey("PhysiotherapistId");
 
                     b.HasOne("AvansFysioAppDomain.Domain.Operation", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeValue");
+                        .HasForeignKey("TypeId");
+
+                    b.Navigation("PatientFile");
 
                     b.Navigation("Physiotherapist");
 
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.PatientFile", b =>
+                {
+                    b.Navigation("Treatments");
                 });
 
             modelBuilder.Entity("AvansFysioAppDomain.Domain.TreatmentPlan", b =>
