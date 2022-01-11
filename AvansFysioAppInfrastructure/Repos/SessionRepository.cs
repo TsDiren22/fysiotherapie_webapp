@@ -37,5 +37,10 @@ namespace AvansFysioAppInfrastructure.Repos
         {
             return context.Sessions.Where(i => i.PatientId == id);
         }
+
+        public IEnumerable<Session> GetSessionsWithTreatmentPlanId(int id)
+        {
+            return context.Sessions.Where(i => i.TreatmentPlanId == id);
+        }
     }
 }

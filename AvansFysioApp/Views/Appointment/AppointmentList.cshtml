@@ -1,0 +1,25 @@
+﻿@using AvansFysioAppDomain.Domain
+
+@model List<Appointment>
+
+<h2>Appointments</h2>
+
+@foreach (Appointment a in @Model)
+{
+    <div class="textBlocks2">
+        <table width="100%">
+            <tr>
+                <th>Physiotherapist:</th>
+                <td>@a.HeadPhysiotherapist.Name</td>
+            </tr>
+            <tr>
+                <th>Date:</th>
+                <td>@a.AppointmentBegin.Day-@a.AppointmentBegin.Month-@a.AppointmentBegin.Year</td>
+            </tr>
+            <tr>
+                <th>Time:</th>
+                <td>@a.AppointmentBegin.TimeOfDay - @a.AppointmentEnd.TimeOfDay</td>
+            </tr>
+        </table>
+    </div>
+}

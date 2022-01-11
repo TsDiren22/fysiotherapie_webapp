@@ -17,7 +17,8 @@ namespace AvansFysioAppDomain.Domain
         public int EmployeeId { get; set; }
 
         public int BigId { get; set; }
-
-        //TODO: Beschikbaarheid
+        public bool IsIntern { get; set; }
+        public DateTime AvailabilityStart { get; set; }
+        public DateTime AvailabilityEnd { get; set; }
     }
 }

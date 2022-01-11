@@ -9,7 +9,7 @@ namespace AvansFysioAppDomain.Domain
     public class Treatment
     {
         public int Id { get; set; }
-        public string TypeId { get; set; }
+        public string? TypeId { get; set; }
         public Operation Type { get; set; }
         public string Description { get; set; }
         public string Room { get; set; }
@@ -18,5 +18,6 @@ namespace AvansFysioAppDomain.Domain
         public DateTime DateOfTreatment { get; set; }
         public PatientFile PatientFile { get; set; }
         public int PatientFileId { get; set; }
+        public string Particularities { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace AvansPhysioAppWebAPI
             services.AddControllers();
             services.AddDbContext<MasterDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterData")));
             services.AddScoped<OperationIRepo, OperationRepo>();
-            services.AddScoped<DiagnosisIRepo, DiagnosisRepo>();
+            services.AddScoped<IDiagnosisRepo, DiagnosisRepo>();
             services.AddScoped<GraphQlQueries>();
             services.AddGraphQLServer().AddType<DiagnosisType>().AddQueryType<GraphQlQueries>();
             services.AddSwaggerGen(c =>

@@ -38,6 +38,11 @@ namespace AvansFysioAppInfrastructure.Repos
             return null;
         }
 
+        public List<Treatment> FindTreatmentswithPatientfileId(int id)
+        {
+            return patientFiles.FirstOrDefault(x => x.Id == id)?.Treatments;
+        }
+
         public void AddPatientFile(PatientFile patientFile)
         {
             context.PatientFiles.Add(patientFile);

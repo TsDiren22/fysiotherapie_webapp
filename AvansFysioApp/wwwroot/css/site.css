@@ -13,9 +13,13 @@ a {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1C8271;
+    border-color: #1C8271;
+}
+
+.btn-primary:hover {
+    background-color: #2BBBA5;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -29,7 +33,7 @@ a {
 }
 
 header {
-    background: #2BBBA5;
+    background: #1C8271;
     color: #ffffff;
 }
 
@@ -72,9 +76,117 @@ body {
   margin-bottom: 60px;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    background: #1C8271;
+    color: #ffffff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.containerImg {
+    position: relative;
+}
+
+.image {
+    display: block;
+    width: 100%
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    width: 100%;
+    transition: .5s ease;
+    background-color: #1C8271;
+}
+
+.container:hover .overlay {
+    opacity: 0.6;
+}
+
+.text {
+    color: white;
+    font-size: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.bottomImg {
+    padding: 10px;
+    background: #1C8271;
+    width: 100%;
+    height: 50px;
+}
+
+.bottomImg p {
+    color: white;
+    font-family: 'Fira Sans', sans-serif;
+    text-decoration: none;
+}
+
+.textBlocks {
+    width: 35%;
+    background: rgba(43, 187, 165, 0.2);
+    border-radius: 5px;
+    margin: 8px;
+    padding: 20px;
+}
+
+.textBlocks3 {
+    width: 45%;
+    background: rgba(43, 187, 165, 0.2);
+    border-radius: 5px;
+    margin: 8px;
+    padding: 20px;
+}
+
+.textBlocks2 {
+    width: 100%;
+    height: auto;
+    background: rgba(43, 187, 165, 0.2);
+    border-radius: 5px;
+    margin: 8px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 20px;
+}
+
+.title {
+    margin: 10px;
+    margin-left: 0;
+    font-size: 50px;
+    color: #1C8271;
+    font-weight: bolder;
+    margin-left: 0;
+}
+
+h1, h2, h4, h5, h6 {
+    color: #1C8271;
+    font-weight: bolder;
+    margin: 20px;
+    margin-top: 5px;
+    margin-left: 0;
+}
+
+h3 {
+    font-weight: bold;
+    margin-left: 0;
+}
+
+.textBlocks2 td {
+    width: 45%;
+}
+
+.textBlocks2 th {
+    width: 45%
 }

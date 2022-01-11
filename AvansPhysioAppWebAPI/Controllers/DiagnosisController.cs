@@ -13,27 +13,27 @@ namespace AvansPhysioAppWebAPI.Controllers
     {
 
         private readonly ILogger<DiagnosisController> _logger;
-        private DiagnosisIRepo diagnosisIRepo;
+        private IDiagnosisRepo _diagnosisRepo;
 
-        public DiagnosisController(ILogger<DiagnosisController> logger, DiagnosisIRepo diagnosisIRepo)
+        public DiagnosisController(ILogger<DiagnosisController> logger, IDiagnosisRepo diagnosisRepo)
         {
             _logger = logger;
-            this.diagnosisIRepo = diagnosisIRepo;
+            this._diagnosisRepo = diagnosisRepo;
         }
 
         [HttpGet("{id}")]
         public ActionResult<Diagnosis> Get(string id)
         {
-            return Ok(diagnosisIRepo.GetDiagnosis(id));
+            return Ok(_diagnosisRepo.GetDiagnosis(id));
         }
 
         [HttpGet]
         public ActionResult<List<Diagnosis>> Get([FromQuery] string locationOnBody, [FromQuery] string pathology)
         {
-            if (locationOnBody != null && pathology != null) return Ok(diagnosisIRepo.GetDiagnosisByParameters(locationOnBody, pathology));
-            else if (locationOnBody != null) return Ok(diagnosisIRepo.GetDiagnosesByLocationOnBody(locationOnBody));
-            else if (pathology != null) return Ok(diagnosisIRepo.GetDiagnosesByPathology(pathology));
-            else return Ok(diagnosisIRepo.Diagnosis().ToList());
+            if (locationOnBody != null && pathology != null) return Ok(_diagnosisRepo.GetDiagnosisByParameters(locationOnBody, pathology));
+            else if (locationOnBody != null) return Ok(_diagnosisRepo.GetDiagnosesByLocationOnBody(locationOnBody));
+            else if (pathology != null) return Ok(_diagnosisRepo.GetDiagnosesByPathology(pathology));
+            else return Ok(_diagnosisRepo.Diagnosis().ToList());
         }
     }
 }

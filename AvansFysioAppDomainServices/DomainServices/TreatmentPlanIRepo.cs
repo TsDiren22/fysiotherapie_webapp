@@ -12,5 +12,6 @@ namespace AvansFysioAppDomainServices.DomainServices
         IEnumerable<TreatmentPlan> TreatmentPlans();
         TreatmentPlan GetTreatmentPlan(int id);
         void UpdateTreatmentPlan(TreatmentPlan treatmentPlan);
+        TreatmentPlan FindTreatmentPlanWithPatientFile(int id);
     }
 }

@@ -15,6 +15,7 @@ namespace AvansFysioAppDomain.Domain
         public int? HeadPhysiotherapistId { get; set; }
         public DateTime AppointmentBegin { get; set; }
         public DateTime AppointmentEnd { get; set; }
+        public DateTime AppointmentMade { get; set; }
         public Session Session { get; set; }
         public int? SessionId { get; set; }
     }

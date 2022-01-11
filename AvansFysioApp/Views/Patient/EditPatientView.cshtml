@@ -1,0 +1,62 @@
+﻿@using AvansFysioAppDomain.Domain
+@model PatientViewModel
+
+<form asp-controller="Patient" asp-action="EditPatientView" enctype="multipart/form-data" method="post" class="m-2">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    
+    <div style="width: 30%;">
+        <img style="height: 230px; width:200px " src="data:@ViewBag.PicFormat;base64,@ViewBag.Pic">
+    </div>
+    <div class="form-group">
+        <label asp-for="EditedPicture" class="control-label">Change picture:</label><br/>
+        <input asp-for="EditedPicture"/>
+        <p style="font-size: 10px">*Leave empty if you don't want to change.</p>
+    </div>
+    <div class="form-group">
+        <input asp-for="Picture" accept="image/*" type="hidden"/>
+    </div>
+    <div class="form-group">
+        <input asp-for="PatientId" type="hidden"/>
+    </div>
+    <div class="form-group">
+        <input asp-for="PatientId" class="form-control" type="hidden">
+    </div>
+    <div class="form-group">
+        <label asp-for="Name">Name:</label>
+        <input asp-for="Name" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone">Phone number:</label>
+        <input asp-for="Phone" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <div class="form-group">
+            <label asp-for="Occupation">Occupation:</label>
+            <select asp-for="Occupation" class="form-control">
+                <option value="">Select an occupation</option>
+                <option value="Student">Student</option>
+                <option value="Employee">Employee</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="OccupationId">Student or personnel number:</label>
+        <input asp-for="OccupationId" type="number" class="form-control" required/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Birthday">Birthday:</label>
+        <input asp-for="Birthday" type="date"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Gender">Gender:</label>
+        <input asp-for="Gender" class="form-control"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a asp-controller="Patient" asp-action="PatientList" class="btn btn-secondary">Cancel</a>
+</form>

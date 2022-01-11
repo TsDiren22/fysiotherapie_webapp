@@ -27,11 +27,12 @@ namespace AvansFysioApp
             services.AddScoped<PatientFileIRepo, PatientFileRepository>();
             services.AddScoped<IPhysiotherapistRepo, PhysiotherapistRepo>();
             services.AddScoped<OperationIRepo, OperationRepo>();
-            services.AddScoped<DiagnosisIRepo, DiagnosisRepo>();
+            services.AddScoped<IDiagnosisRepo, DiagnosisRepo>();
             services.AddScoped<TreatmentPlanIRepo, TreatmentPlanRepository>();
             services.AddScoped<TreatmentIRepo, TreatmentRepository>();
             services.AddScoped<AppointmentIRepo, AppointmentRepository>();
             services.AddScoped<SessionIRepo, SessionRepository>();
+            services.AddScoped<RemarkIRepo, RemarkRepository>();
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddDbContext<MasterDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterData")));
             services.AddDbContext<AccountDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Security")));

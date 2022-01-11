@@ -24,7 +24,11 @@ namespace AvansFysioAppDomain.Domain
         [Phone]
         public string Phone { get; set; }
 
-        //TODO: Photo
+        [Required]
+        public byte[] Picture { get; set; }
+
+        [Required]
+        public string PictureFormat { get; set; }
 
         [Required(ErrorMessage = "Please choose an occupation")]
         public string Occupation { get; set; }

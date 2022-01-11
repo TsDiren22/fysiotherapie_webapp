@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "dHiCAXQ2QdR9GddgwWwjjbogj+OxUg6xJwPH9VLmebv0hTND6FrFxNCkgT4Xyl6xZ1Oqw1jsxxTrlE0/cBNlbA==",
+  "dgSpecHash": "knnCzAFso9+pWYwkBoC/oQEhc15WFgUlCdf25RDMZOw9vKgn/FXIsj3edR+JbahLmY3XijZRbRyCKjFT/j5jkA==",
   "success": true,
   "projectFilePath": "C:\\Users\\diren\\OneDrive\\Bureaublad\\Jaar2\\SSWFIndividueel\\AvansFysioApp\\AvansFysioAppDomainServices\\AvansFysioAppDomainServices.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\diren\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.13\\microsoft.aspnetcore.http.features.5.0.13.nupkg.sha512",
+    "C:\\Users\\diren\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.1\\microsoft.extensions.primitives.5.0.1.nupkg.sha512",
+    "C:\\Users\\diren\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

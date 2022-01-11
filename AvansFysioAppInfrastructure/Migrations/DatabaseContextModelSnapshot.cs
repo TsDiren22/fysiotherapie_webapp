@@ -32,6 +32,9 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<DateTime>("AppointmentEnd")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("AppointmentMade")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("HeadPhysiotherapistId")
                         .HasColumnType("int");
 
@@ -102,6 +105,14 @@ namespace AvansFysioAppInfrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Picture")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("PictureFormat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PatientId");
 
                     b.ToTable("Patients");
@@ -124,6 +135,10 @@ namespace AvansFysioAppInfrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DescriptionComplaintsGlobal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DiagnosisDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DiagnosisNumber")
@@ -138,17 +153,11 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("SupervisionById")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TreatmentPlanId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -160,8 +169,6 @@ namespace AvansFysioAppInfrastructure.Migrations
 
                     b.HasIndex("SupervisionById");
 
-                    b.HasIndex("TreatmentPlanId");
-
                     b.ToTable("PatientFiles");
                 });
 
@@ -172,6 +179,12 @@ namespace AvansFysioAppInfrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("AvailabilityEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("AvailabilityStart")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("BigId")
                         .HasColumnType("int");
 
@@ -180,6 +193,9 @@ namespace AvansFysioAppInfrastructure.Migrations
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsIntern")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -195,21 +211,70 @@ namespace AvansFysioAppInfrastructure.Migrations
                         new
                         {
                             Id = 99,
+                            AvailabilityEnd = new DateTime(1, 1, 1, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            AvailabilityStart = new DateTime(1, 1, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             BigId = 123,
                             Email = "abc@abc.com",
                             EmployeeId = 123,
+                            IsIntern = false,
                             Name = "Diren Physio",
                             Phone = "0612345678"
                         },
                         new
                         {
                             Id = 100,
+                            AvailabilityEnd = new DateTime(1, 1, 1, 22, 0, 0, 0, DateTimeKind.Unspecified),
+                            AvailabilityStart = new DateTime(1, 1, 1, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             BigId = 321,
-                            Email = "def@def.com",
+                            Email = "ghi@ghi.com",
                             EmployeeId = 321,
+                            IsIntern = false,
                             Name = "Justin Physio",
                             Phone = "0687654321"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            AvailabilityEnd = new DateTime(1, 1, 1, 20, 0, 0, 0, DateTimeKind.Unspecified),
+                            AvailabilityStart = new DateTime(1, 1, 1, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            BigId = 543,
+                            Email = "def@def.com",
+                            EmployeeId = 345,
+                            IsIntern = true,
+                            Name = "Intern Physio",
+                            Phone = "0612348765"
                         });
+                });
+
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Remark", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FileByRemarkId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RemarkMadeById")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("SeenByPatient")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileByRemarkId");
+
+                    b.HasIndex("RemarkMadeById");
+
+                    b.ToTable("Remarks");
                 });
 
             modelBuilder.Entity("AvansFysioAppDomain.Domain.Session", b =>
@@ -258,6 +323,9 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Particularities")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PatientFileId")
                         .HasColumnType("int");
 
@@ -288,10 +356,18 @@ namespace AvansFysioAppInfrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MaxSessions")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FileId");
 
                     b.ToTable("TreatmentPlans");
                 });
@@ -335,10 +411,6 @@ namespace AvansFysioAppInfrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("SupervisionById");
 
-                    b.HasOne("AvansFysioAppDomain.Domain.TreatmentPlan", "TreatmentPlan")
-                        .WithMany()
-                        .HasForeignKey("TreatmentPlanId");
-
                     b.Navigation("HeadPractitioner");
 
                     b.Navigation("IntakeBy");
@@ -346,8 +418,23 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Navigation("Patient");
 
                     b.Navigation("SupervisionBy");
+                });
 
-                    b.Navigation("TreatmentPlan");
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.Remark", b =>
+                {
+                    b.HasOne("AvansFysioAppDomain.Domain.PatientFile", "FileByRemark")
+                        .WithMany("Remarks")
+                        .HasForeignKey("FileByRemarkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AvansFysioAppDomain.Domain.Physiotherapist", "RemarkMadeBy")
+                        .WithMany()
+                        .HasForeignKey("RemarkMadeById");
+
+                    b.Navigation("FileByRemark");
+
+                    b.Navigation("RemarkMadeBy");
                 });
 
             modelBuilder.Entity("AvansFysioAppDomain.Domain.Session", b =>
@@ -392,8 +479,21 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Navigation("Type");
                 });
 
+            modelBuilder.Entity("AvansFysioAppDomain.Domain.TreatmentPlan", b =>
+                {
+                    b.HasOne("AvansFysioAppDomain.Domain.PatientFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
+                });
+
             modelBuilder.Entity("AvansFysioAppDomain.Domain.PatientFile", b =>
                 {
+                    b.Navigation("Remarks");
+
                     b.Navigation("Treatments");
                 });
 

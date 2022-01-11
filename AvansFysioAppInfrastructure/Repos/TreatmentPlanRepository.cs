@@ -41,5 +41,10 @@ namespace AvansFysioAppInfrastructure.Repos
 
             this.context.SaveChanges(); 
         }
+
+        public TreatmentPlan FindTreatmentPlanWithPatientFile(int id)
+        {
+            return TreatmentPlans().FirstOrDefault(x => x.FileId == id);
+        }
     }
 }

@@ -30,3 +30,7 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\ref\AvansFysioAppDomain.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.genruntimeconfig.cache
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomain\bin\Debug\net5.0\System.IO.Pipelines.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomain\obj\Debug\net5.0\AvansFysioAppDomain.csproj.CopyComplete

@@ -13,5 +13,6 @@ namespace AvansFysioAppInfrastructure.Repos
         IEnumerable<Session> Sessions();
         Session GetSession(int id);
         IEnumerable<Session> GetSessionsWithPatientId(int id);
+        IEnumerable<Session> GetSessionsWithTreatmentPlanId(int id);
     }
 }

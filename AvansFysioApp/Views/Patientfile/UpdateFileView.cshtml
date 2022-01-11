@@ -1,0 +1,55 @@
+﻿@using AvansFysioAppDomain.Domain
+@using System.Security.Claims
+@model PatientFile
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+
+    var claimInt = claims.FirstOrDefault(x => x.Value == "Intern");
+}
+
+<h2>Update @Model.Patient.Name</h2>
+
+<form asp-controller="Patientfile" asp-action="UpdateFileView" method="post" class="m-2">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <input asp-for="PatientId" type="hidden" />
+    </div>
+    <div class="form-group">
+        <input asp-for="Age" class="form-control" type="hidden" />
+    </div>
+
+    <input asp-for="Title" type="hidden" />
+    <input asp-for="DiagnosisDescription" type="hidden" />
+    <input asp-for="DiagnosisNumber" type="hidden" />
+
+    <div class="form-group">
+        <label asp-for="DescriptionComplaintsGlobal">DescriptionComplaintsGlobal:</label>
+        <input asp-for="DescriptionComplaintsGlobal" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="IntakeById">Intake by:</label>
+        <select class="form-control" asp-for="IntakeById" asp-items="@ViewBag.Physiotherapists"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SupervisionById">Intake by:</label>
+        <select class="form-control" asp-for="SupervisionById" asp-items="@ViewBag.NoIntern"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfRegister">Date of registration:</label>
+        <input class="form-control" asp-for="DateOfRegister" type="date" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HeadPractitionerId">HeadPractitioner:</label>
+        <select class="form-control" asp-for="HeadPractitionerId" asp-items="@ViewBag.Physiotherapists"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a asp-controller="Patient" asp-action="PatientList" class="btn btn-secondary">Cancel</a>
+
+</form>

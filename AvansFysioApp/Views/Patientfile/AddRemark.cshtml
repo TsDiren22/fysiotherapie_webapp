@@ -1,0 +1,24 @@
+﻿@model AvansFysioAppDomain.Domain.Remark
+
+<h2>Add remark</h2>
+
+
+<form asp-controller="Patientfile" asp-action="AddRemark" method="post" class="m-2">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="FileByRemarkId">Patient:</label>
+        <select class="form-control" asp-for="FileByRemarkId" asp-items="@ViewBag.PatientFiles"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Note">Note:</label>
+        <input class="form-control" asp-for="Note" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SeenByPatient">Seen by patient:</label>
+        <input type="checkbox" asp-for="SeenByPatient" class="form-control" style="float: left" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add session</button>
+    <a asp-controller="Patient" asp-action="PatientList" class="btn btn-secondary">Cancel</a>
+</form>

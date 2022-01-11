@@ -1,0 +1,23 @@
+﻿@model AvansFysioAppDomain.Domain.TreatmentPlan
+<form asp-controller="Patientfile" asp-action="AddTreatmentPlan" method="post" class="m-2">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    
+    <div class="form-group">
+        <label asp-for="FileId">Patient:</label>
+        <select class="form-control" asp-for="FileId" asp-items="@ViewBag.PatientFiles"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MaxSessions">Max sessions per week:</label>
+        <input type="number" class="form-control" asp-for="MaxSessions"/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Duration">Duration of a session in minutes:</label>
+        <input type="number" class="form-control" asp-for="Duration"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add patient</button>
+    <a asp-controller="Patient" asp-action="PatientList" class="btn btn-secondary">Cancel</a>
+</form>

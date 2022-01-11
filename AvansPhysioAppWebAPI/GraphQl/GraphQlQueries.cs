@@ -9,9 +9,9 @@ namespace AvansPhysioAppWebAPI.GraphQl
 {
     public class GraphQlQueries
     {
-        private DiagnosisIRepo repository;
+        private IDiagnosisRepo repository;
 
-        public GraphQlQueries(DiagnosisIRepo repository)
+        public GraphQlQueries(IDiagnosisRepo repository)
         {
             this.repository = repository;
         }

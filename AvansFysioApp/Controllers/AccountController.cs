@@ -1,4 +1,4 @@
-﻿    using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -73,21 +73,36 @@ namespace AvansFysioApp.Controllers
                     Email = registerModel.Email
                 };
                 
-                var result = await userManager.CreateAsync(account, registerModel.Password);
-
                 Patient patient = repository.GetPatientByEmail(account.Email);
+                IdentityResult result = null;
+                if (patient != null)
+                {
+                    result = await userManager.CreateAsync(account, registerModel.Password);
+
+                }
+
+
                 if (patient != null)
                 {
                     await userManager.AddClaimAsync(account, new Claim("Patient", "true"));
                 }
 
-                if (result.Succeeded)
+
+                if (result != null && result.Succeeded)
                 {
                     var signIn = await signInManager.PasswordSignInAsync(account, registerModel.Password, false, false);
                     if (signIn.Succeeded)
                     {
                         return RedirectToAction("Index", "Home");
                     }
+                }
+                if (result == null)
+                {
+                    ModelState.AddModelError("", "This email does not exist in our system. Please contact your physiotherapist.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Username and/or Email are already in use.");
                 }
             }
 

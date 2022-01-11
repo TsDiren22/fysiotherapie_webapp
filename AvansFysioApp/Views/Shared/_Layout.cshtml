@@ -1,4 +1,49 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using AvansFysioAppDomain.Domain
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+
+    bool IsPhysio()
+    {
+        try
+        {
+            foreach (Physiotherapist p in ViewBag.Physio)
+            {
+                if (p.Email.Equals(user.Email))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+    bool IsPatient()
+    {
+        try
+        {
+            foreach (Patient p in ViewBag.Pat)
+            {
+                if (p.Email.Equals(user.Email))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,12 +63,15 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated && IsPhysio())
+                        {
+                            <li class="nav-item"><a class="nav-link text-white" asp-action="PatientList">Patient List</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" asp-action="AddSession">Add Session</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" asp-action="AddTreatment">Add Treatment</a></li>
+                        }
+                        <li class="nav-item">@if (User.Identity.IsAuthenticated && (IsPatient() || IsPhysio()))
+                        {<a class="nav-link text-white" asp-action="AddAppointment">Make Appointment</a>}</li>
+
                     </ul>
                 </div>
                 <div class="align-self-end">
@@ -42,8 +90,11 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="LogOut">Logout</a>
                             </li>
+                            <li>
+                                <a class="nav-link text-white">@user.UserName</a>
+                            </li>
                         }
-                        
+
                     </ul>
                 </div>
             </div>
@@ -56,8 +107,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - AvansFysioApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container text-white">
+            &copy; 2021 - AvansFysioApp
             <div style="float: right">@await Component.InvokeAsync("PatientAmount")</div>
         </div>
     </footer>

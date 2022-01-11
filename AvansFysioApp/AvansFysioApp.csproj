@@ -30,4 +30,8 @@
     <ProjectReference Include="..\AvansFysioAppInfrastructure\AvansFysioAppInfrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Physiotherapist\" />
+  </ItemGroup>
+
 </Project>

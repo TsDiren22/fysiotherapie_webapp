@@ -25,6 +25,8 @@ namespace AvansFysioAppInfrastructure.Data
 
         public DbSet<Appointment> Appointments { get; set; }
 
+        public DbSet<Remark> Remarks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -36,19 +38,39 @@ namespace AvansFysioAppInfrastructure.Data
                     Name = "Diren Physio",
                     Email = "abc@abc.com",
                     Phone = "0612345678",
+                    IsIntern = false,
                     EmployeeId = 123,
-                    BigId = 123
+                    BigId = 123,
+                    AvailabilityStart = new DateTime(1, 1, 1, 8, 0, 0),
+                    AvailabilityEnd = new DateTime(1, 1, 1, 17, 0, 0)
                 },
                 
                 new Physiotherapist()
                 {
                     Id = 100,
                     Name = "Justin Physio",
-                    Email = "def@def.com",
+                    Email = "ghi@ghi.com",
                     Phone = "0687654321",
+                    IsIntern = false,
                     EmployeeId = 321,
-                    BigId = 321
+                    BigId = 321,
+                    AvailabilityStart = new DateTime(1, 1, 1, 13, 0, 0),
+                    AvailabilityEnd = new DateTime(1, 1, 1, 22, 0, 0)
+                },
+
+                new Physiotherapist()
+                {
+                    Id = 101,
+                    Name = "Intern Physio",
+                    Email = "def@def.com",
+                    Phone = "0612348765",
+                    IsIntern = true,
+                    EmployeeId = 345,
+                    BigId = 543,
+                    AvailabilityStart = new DateTime(1, 1, 1, 11, 0, 0),
+                    AvailabilityEnd = new DateTime(1, 1, 1, 20, 0, 0)
                 });
+
         }
     }
 }

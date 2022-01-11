@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AvansFysioAppInfrastructure.Repos
 {
-    public class DiagnosisRepo : DiagnosisIRepo
+    public class DiagnosisRepo : IDiagnosisRepo
     {
         private MasterDbContext context;
         private DbSet<Diagnosis> diagnoses;

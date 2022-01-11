@@ -13,6 +13,8 @@ namespace AvansFysioAppDomain.Domain
         public Patient Patient { get; set; }
         public int? PatientId { get; set; }
         public int Duration { get; set; }
+        public TreatmentPlan TreatmentPlan { get; set; }
+        public int TreatmentPlanId { get; set; }
         public Physiotherapist HeadPhysiotherapist { get; set; }
         public int? HeadPhysiotherapistId { get; set; }
     }

@@ -1,8 +1,145 @@
-﻿@model System.Collections.Generic.IEnumerable<AvansFysioAppDomain.Domain.Patient>
+﻿@using Microsoft.AspNetCore.Identity
+@using AvansFysioAppDomain.Domain
+@using System.IO
+@model System.Collections.Generic.IEnumerable<AvansFysioAppDomain.Domain.Patient>
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@{
+    bool IsPhysio()
+    {
+        try
+        {
+            foreach (Physiotherapist p in ViewBag.Physio)
+            {
+                if (p.Email.Equals(user.Email))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+    bool IsPatient()
+    {
+        try
+        {
+            foreach (Patient p in ViewBag.Pat)
+            {
+                if (p.Email.Equals(user.Email))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}
 
+<div class="title">Physiotherapy Avans</div>
 
-<a asp-action="PatientList">Patient list</a>
+@if (User.Identity.IsAuthenticated && IsPhysio())
+{
+    <a asp-controller="Patient" asp-action="PatientList">
+        <div class="containerImg">
+            <img src="\Photos\Physio.jpg" class="image" alt="Access patient list">
+            <div class="overlay">
+                <div class="text">Patient list</div>
+            </div>
+        </div>
 
-<a asp-action="AddSession">Add Session</a>
-<a asp-action="AddAppointment">Add Appointment</a>
-<a asp-action="AddTreatment">Add treatment</a>
+        <div class="bottomImg">
+            <p>Here you can access your list of patients. You can add new patients, edit them, and access their details.</p>
+        </div>
+    </a>
+}
+
+@if (User.Identity.IsAuthenticated && IsPatient())
+{
+    <table width=100%>
+        <tr>
+            <td valign="top">
+                <div style="width: 100%">
+                    <a asp-controller="Appointment" asp-action="AddAppointment">
+                        <div class="containerImg">
+                            <img src="\Photos\Patient3.jpeg" class="image" alt="Make Appointments">
+                            <div class="overlay">
+                                <div class="text">Make an appointment</div>
+                            </div>
+                        </div>
+
+                        <div class="bottomImg">
+                            <p>Make an appointment with your physiotherapist.</p>
+                        </div>
+                    </a>
+                </div>
+            </td>
+            <td valign="top">
+                <div style="width: 100%">
+                    <a asp-controller="Appointment" asp-action="AppointmentList">
+                        <div class="containerImg">
+                            <img src="\Photos\Patients2.jpg" class="image" alt="appointments">
+                            <div class="overlay">
+                                <div class="text">Upcoming appointments</div>
+                            </div>
+                        </div>
+
+                        <div class="bottomImg">
+                            <p>Here you can see your upcoming appointments.</p>
+                        </div>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <table width=100%>
+        <tr>
+            <td valign="top">
+                <div style="width: 100%">
+                    <a asp-controller="Account" asp-action="Login">
+                        <div class="containerImg">
+                            <img src="\Photos\Patient3.jpeg" class="image" alt="Login">
+                            <div class="overlay">
+                                <div class="text">Login</div>
+                            </div>
+                        </div>
+
+                        <div class="bottomImg">
+                            <p>Here you can log into your account.</p>
+                        </div>
+                    </a>
+                </div>
+            </td>
+            <td valign="top">
+                <div style="width: 100%">
+                    <a asp-controller="Account" asp-action="Register">
+                        <div class="containerImg">
+                            <img src="\Photos\Patients2.jpg" class="image" alt="Register">
+                            <div class="overlay">
+                                <div class="text">Register</div>
+                            </div>
+                        </div>
+
+                        <div class="bottomImg">
+                            <p>Here you can make an account.</p>
+                        </div>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+}

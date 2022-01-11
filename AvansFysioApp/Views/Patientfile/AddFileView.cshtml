@@ -1,0 +1,42 @@
+﻿@using System.Security.Claims
+@model AvansFysioAppDomain.Domain.PatientFile
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    
+    var claimInt = claims.FirstOrDefault(x => x.Value == "Intern");
+}
+
+<form asp-controller="Patientfile" asp-action="AddFileView" method="post" class="m-2">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="PatientId">Patient:</label>
+        <select class="form-control" asp-for="PatientId" asp-items="@ViewBag.PatientNoFile"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="DescriptionComplaintsGlobal">DescriptionComplaintsGlobal:</label>
+        <input asp-for="DescriptionComplaintsGlobal" class="form-control" />
+    </div>
+    
+    @if (claimInt != null)
+    {
+        <div class="form-group">
+            <label asp-for="SupervisionById">Supervision by:</label>
+            <select class="form-control" asp-for="SupervisionById" asp-items="@ViewBag.NoIntern" required></select>
+        </div>
+    }
+    
+    <div class="form-group">
+        <label asp-for="DateOfRegister">Date of registration:</label>
+        <input class="form-control" asp-for="DateOfRegister" type="date" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HeadPractitionerId">HeadPractitioner:</label>
+        <select class="form-control" asp-for="HeadPractitionerId" asp-items="@ViewBag.Physiotherapists" required></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add patient</button>
+    <a asp-controller="Patient" asp-action="PatientList" class="btn btn-secondary">Cancel</a>
+</form>
