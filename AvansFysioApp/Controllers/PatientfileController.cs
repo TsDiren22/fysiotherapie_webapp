@@ -22,7 +22,6 @@ namespace AvansFysioApp.Controllers
         private IRepo repository;
         private PatientFileIRepo fileRepository;
         private IPhysiotherapistRepo physiotherapistRepo;
-        private AppointmentIRepo appointmentIRepo;
         private TreatmentPlanIRepo treatmentPlanIRepo;
         private TreatmentIRepo treatmentIRepo;
         private SessionIRepo sessionIRepo;
@@ -33,7 +32,7 @@ namespace AvansFysioApp.Controllers
         private IDiagnosisRepo diagnosisRepo;
         private RemarkIRepo remarkIRepo;
 
-        public PatientfileController(IRepo repository, IDiagnosisRepo diagnosisRepo, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, AppointmentIRepo appointmentIRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public PatientfileController(IRepo repository, IDiagnosisRepo diagnosisRepo, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
@@ -44,7 +43,6 @@ namespace AvansFysioApp.Controllers
             };
             this.remarkIRepo = remarkIRepo;
             this.configuration = configuration;
-            this.appointmentIRepo = appointmentIRepo;
             this.operationIRepo = operationIRepo;
             this.sessionIRepo = sessionIRepo;
             this.diagnosisRepo = diagnosisRepo;
@@ -95,68 +93,6 @@ namespace AvansFysioApp.Controllers
 
             var physios = noIntern.Prepend(new Physiotherapist() { Id = -1, Name = "Select a physiotherapist" });
             ViewBag.NoIntern = new SelectList(physios, "Id", "Name");
-        }
-
-        public void AddSessionsInViewbag(string email)
-        {
-            Patient patient = repository.GetPatientByEmail(email);
-            Physiotherapist physiotherapist = physiotherapistRepo.getPhysiotherapistByEmail(email);
-            List<Session> list = new List<Session>();
-            var sessions = list.Prepend(new Session() { Id = -1, Name = "Select a session" });
-
-            if (patient != null)
-            {
-                foreach (var session in sessionIRepo.Sessions())
-                {
-                    if (appointmentIRepo.FindAppointmentWithSessionId(session.Id) == null && session.PatientId == patient.PatientId)
-                    {
-                        list.Add(session);
-                    }
-                }
-            }
-            else if (physiotherapist != null)
-            {
-                foreach (var session in sessionIRepo.Sessions())
-                {
-                    if (appointmentIRepo.FindAppointmentWithSessionId(session.Id) == null &&
-                        session.HeadPhysiotherapistId == physiotherapist.Id)
-                    {
-                        list.Add(session);
-                    }
-                }
-            }
-
-            ViewBag.SessionList = list;
-            ViewBag.Sessions = new SelectList(sessions, "Id", "Name");
-        }
-
-        public void AddAppointmentsInViewbag(string email)
-        {
-            Patient patient = repository.GetPatientByEmail(email);
-            Physiotherapist physiotherapist = physiotherapistRepo.getPhysiotherapistByEmail(email);
-            List<Appointment> list = new List<Appointment>();
-
-            if (patient != null)
-            {
-                foreach (var a in appointmentIRepo.Appointments())
-                {
-                    if (a.PatientId == patient.PatientId)
-                    {
-                        list.Add(a);
-                    }
-                }
-            }
-            else if (physiotherapist != null)
-            {
-                foreach (var a in appointmentIRepo.Appointments())
-                {
-                    if (a.HeadPhysiotherapistId == physiotherapist.Id)
-                    {
-                        list.Add(a);
-                    }
-                }
-            }
-            ViewBag.AppointmentList = list;
         }
 
         public void AddPatientsWithNoPatientFile()
@@ -305,49 +241,6 @@ namespace AvansFysioApp.Controllers
         }
 
 
-        [Authorize(Policy = "InternOrPhysioOnly")]
-        [HttpGet]
-        public IActionResult AddSession()
-        {
-            AddPhysioToList();
-            AddPatientToList();
-            AddPatientsInViewbag();
-            return View();
-        }
-
-        [Authorize(Policy = "InternOrPhysioOnly")]
-        [HttpPost]
-        public async Task<IActionResult> AddSession(Session session)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityUser user = await userManager.GetUserAsync(User);
-                string email = user.Email;
-
-                Physiotherapist physiotherapist = physiotherapistRepo.getPhysiotherapistByEmail(email);
-                Patient patient = repository.GetPatient((int)session.PatientId);
-                PatientFile patientFile = fileRepository.FindFileWithPatientId(patient.PatientId);
-                TreatmentPlan treatmentPlan = treatmentPlanIRepo.FindTreatmentPlanWithPatientFile(patientFile.Id);
-                int size = sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id).Count();
-                if (size >= treatmentPlan.MaxSessions)
-                {
-                    ModelState.AddModelError("", "The maximum amount of sessions this week have been reached.");
-                    AddPhysioToList();
-                    AddPatientToList();
-                    AddPatientsInViewbag();
-                    return View(session);
-                }
-
-                session.HeadPhysiotherapist = physiotherapist;
-                session.TreatmentPlanId = treatmentPlan.Id;
-                sessionIRepo.AddSession(session);
-
-                return RedirectToAction("DetailView", "Patient", new { id = session.PatientId });
-            }
-            return View();
-        }
-
-
         [HttpGet]
         public IActionResult AddRemark()
         {
@@ -387,6 +280,8 @@ namespace AvansFysioApp.Controllers
             if (ModelState.IsValid)
             {
                 PatientFile patientFile = fileRepository.GetPatientFile(treatment.FileId);
+                Physiotherapist physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)patientFile.HeadPractitionerId);
+                treatment.PhysiotherapistId = physiotherapist.Id;
                 treatmentPlanIRepo.AddTreatmentPlan(treatment);
                 return RedirectToAction("DetailView", "Patient", new { id = patientFile.PatientId });
             }

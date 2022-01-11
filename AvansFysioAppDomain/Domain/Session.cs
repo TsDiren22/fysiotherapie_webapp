@@ -9,13 +9,14 @@ namespace AvansFysioAppDomain.Domain
     public class Session
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public Patient Patient { get; set; }
         public int? PatientId { get; set; }
-        public int Duration { get; set; }
         public TreatmentPlan TreatmentPlan { get; set; }
         public int TreatmentPlanId { get; set; }
         public Physiotherapist HeadPhysiotherapist { get; set; }
         public int? HeadPhysiotherapistId { get; set; }
+        public DateTime AppointmentMade { get; set; }
+        public DateTime AppointmentBegin { get; set; }
+        public DateTime AppointmentEnd { get; set; }
     }
 }

@@ -23,8 +23,6 @@ namespace AvansFysioAppInfrastructure.Data
 
         public DbSet<Treatment> Treatments { get; set; }
 
-        public DbSet<Appointment> Appointments { get; set; }
-
         public DbSet<Remark> Remarks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

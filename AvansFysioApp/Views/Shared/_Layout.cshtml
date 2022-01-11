@@ -70,7 +70,7 @@
                             <li class="nav-item"><a class="nav-link text-white" asp-action="AddTreatment">Add Treatment</a></li>
                         }
                         <li class="nav-item">@if (User.Identity.IsAuthenticated && (IsPatient() || IsPhysio()))
-                        {<a class="nav-link text-white" asp-action="AddAppointment">Make Appointment</a>}</li>
+                        {<a class="nav-link text-white" asp-action="AddSession">Make Appointment</a>}</li>
 
                     </ul>
                 </div>

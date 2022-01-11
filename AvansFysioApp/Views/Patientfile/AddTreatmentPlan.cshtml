@@ -7,6 +7,11 @@
         <label asp-for="FileId">Patient:</label>
         <select class="form-control" asp-for="FileId" asp-items="@ViewBag.PatientFiles"></select>
     </div>
+    
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title"/>
+    </div>
 
     <div class="form-group">
         <label asp-for="MaxSessions">Max sessions per week:</label>

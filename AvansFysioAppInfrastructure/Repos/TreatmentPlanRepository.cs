@@ -46,5 +46,10 @@ namespace AvansFysioAppInfrastructure.Repos
         {
             return TreatmentPlans().FirstOrDefault(x => x.FileId == id);
         }
+
+        public List<TreatmentPlan> findTreatmentPlanWithPhysiotherapistId(int id)
+        {
+            return TreatmentPlans().Where(x => x.PhysiotherapistId == id).ToList();
+        }
     }
 }

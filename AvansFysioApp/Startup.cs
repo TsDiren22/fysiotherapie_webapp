@@ -30,7 +30,6 @@ namespace AvansFysioApp
             services.AddScoped<IDiagnosisRepo, DiagnosisRepo>();
             services.AddScoped<TreatmentPlanIRepo, TreatmentPlanRepository>();
             services.AddScoped<TreatmentIRepo, TreatmentRepository>();
-            services.AddScoped<AppointmentIRepo, AppointmentRepository>();
             services.AddScoped<SessionIRepo, SessionRepository>();
             services.AddScoped<RemarkIRepo, RemarkRepository>();
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
