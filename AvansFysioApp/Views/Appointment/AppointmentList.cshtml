@@ -1,0 +1,34 @@
+﻿@using AvansFysioAppDomain.Domain
+@model List<AvansFysioAppDomain.Domain.Session>
+
+<h2>Appointments</h2>
+
+@foreach (Session session in @Model)
+{
+    <div class="textBlocks2">
+        <table style="width: 100%">
+            <tr>
+                <th>Patient name:</th>
+                <td>@session.Patient.Name</td>
+            </tr>
+            <tr>
+                <th>Physiotherapist:</th>
+                <td>@session.HeadPhysiotherapist.Name</td>
+            </tr>
+            <tr>
+                <th>Date:</th>
+                <td>@session.AppointmentBegin.ToString("dd-MM-yyyy")</td>
+            </tr>
+            <tr>
+                <th>Time:</th>
+                <td>@session.AppointmentBegin.ToString("HH:mm")-@session.AppointmentEnd.ToString("HH:mm")</td>
+            </tr>
+            @if (DateTime.Now.Day == @session.AppointmentMade.Day)
+            {
+                <tr>
+                    <th><a asp-controller="Appointment" asp-action="EditSession" asp-route-id="@session.Id">Edit date</a></th>
+                </tr>
+            }
+        </table>
+    </div>
+}

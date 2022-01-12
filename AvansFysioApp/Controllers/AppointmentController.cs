@@ -80,7 +80,6 @@ namespace AvansFysioApp.Controllers
             ViewBag.Remarks = list;
         }
 
-        [Authorize(Policy = "InternOrPhysioOnly")]
         [HttpGet]
         public async Task<IActionResult> AddSession()
         {
@@ -107,7 +106,6 @@ namespace AvansFysioApp.Controllers
             return View();
         }
 
-        [Authorize(Policy = "InternOrPhysioOnly")]
         [HttpPost]
         public async Task<IActionResult> AddSession(Session session)
         {
@@ -177,7 +175,70 @@ namespace AvansFysioApp.Controllers
             return View(session);
         }
 
+        [HttpGet]
+        public IActionResult EditSession(int id)
+        {
+            var s = sessionIRepo.GetSession(id);
 
+            return View(s);
+        }
+
+        [HttpPost]
+        public IActionResult EditSession(Session session)
+        {
+            if (ModelState.IsValid)
+            {
+                var s = sessionIRepo.GetSession(session.Id);
+                var treatmentPlan = treatmentPlanIRepo.GetTreatmentPlan(s.TreatmentPlanId);
+                int size = 0;
+
+                var currentCulture = CultureInfo.CurrentCulture;
+                var weekNumber1 = currentCulture.Calendar.GetWeekOfYear(
+                    session.AppointmentBegin,
+                    currentCulture.DateTimeFormat.CalendarWeekRule,
+                    currentCulture.DateTimeFormat.FirstDayOfWeek);
+                foreach (Session se in sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id))
+                {
+                    var weekNumber2 = currentCulture.Calendar.GetWeekOfYear(
+                        se.AppointmentBegin,
+                        currentCulture.DateTimeFormat.CalendarWeekRule,
+                        currentCulture.DateTimeFormat.FirstDayOfWeek);
+                    if (weekNumber1 == weekNumber2)
+                    {
+                        size++;
+                    }
+                }
+                if (size >= treatmentPlan.MaxSessions)
+                {
+                    ModelState.AddModelError("", "The maximum amount of sessions this week have been reached.");
+                    return View(session);
+                }
+                int duration = s.AppointmentEnd.Minute - s.AppointmentBegin.Minute;
+                s.AppointmentBegin = session.AppointmentBegin;
+                s.AppointmentEnd = session.AppointmentBegin.AddMinutes(duration);
+                sessionIRepo.UpdateSession(s);
+                return RedirectToAction("index", "Home");
+            }
+            return View(session);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AppointmentList()
+        {
+            var user = await userManager.GetUserAsync(User);
+            var patient = repository.GetPatientByEmail(user.Email);
+            var physio = physiotherapistRepo.getPhysiotherapistByEmail(user.Email);
+
+            if (patient != null)
+            {
+                PatientFile patientFile = fileRepository.FindFileWithPatientId(patient.PatientId);
+                return View(sessionIRepo.GetSessionsWithPatientId(patient.PatientId).ToList());
+            }
+            else
+            {
+                return View(sessionIRepo.GetSessionsWithPhysiotherapistId(physio.Id).ToList());
+            }
+        }
 
     }
 }
