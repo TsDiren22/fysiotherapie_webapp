@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AvansFysioAppDomain.Domain
 {
@@ -25,7 +23,7 @@ namespace AvansFysioAppDomain.Domain
         public int? HeadPractitionerId { get; set; }
         [Required(ErrorMessage = "Date of registration is required!")]
         public DateTime DateOfRegister { get; set; }
-        public DateTime DateOfEnd { get; set; }
+        public DateTime? DateOfEnd { get; set; }
         public List<Remark> Remarks { get; set; }
         public List<Treatment> Treatments { get; set; }
     }

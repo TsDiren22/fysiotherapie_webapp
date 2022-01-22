@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using AvansFysioAppDomain.Domain.DataAnnotations;
 
 namespace AvansFysioAppDomain.Domain
 {

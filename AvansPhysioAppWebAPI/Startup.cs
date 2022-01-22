@@ -1,16 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Data;
 using AvansFysioAppInfrastructure.Repos;
@@ -69,11 +62,11 @@ namespace AvansPhysioAppWebAPI
                 endpoints.MapControllerRoute(
                     name: "Get",
                     pattern: "Diagnosis/{id}",
-                    defaults: new { controller = "DiagnosisController", action = "Get" });
+                    defaults: new { controller = "Diagnosis", action = "Get" });
                 endpoints.MapControllerRoute(
                     name: "Get",
                     pattern: "Operation/{id}",
-                    defaults: new { controller = "OperationController", action = "Get" });
+                    defaults: new { controller = "Operation", action = "Get" });
                 endpoints.MapGraphQL();
             });
 

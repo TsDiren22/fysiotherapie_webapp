@@ -1,18 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using AvansFysioApp.ExtentionMethods;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
-using AvansFysioAppInfrastructure.Repos;
+using AvansFysioAppDomainServices.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
 
 namespace AvansFysioApp.Controllers
 {
@@ -24,31 +21,22 @@ namespace AvansFysioApp.Controllers
         private IPhysiotherapistRepo physiotherapistRepo;
         private TreatmentPlanIRepo treatmentPlanIRepo;
         private TreatmentIRepo treatmentIRepo;
-        private SessionIRepo sessionIRepo;
-        private HttpClient client;
-        private IConfiguration configuration;
         private UserManager<IdentityUser> userManager;
         private OperationIRepo operationIRepo;
-        private IDiagnosisRepo diagnosisRepo;
         private RemarkIRepo remarkIRepo;
+        private PatientValidation patientValidation;
 
-        public PatientfileController(IRepo repository, IDiagnosisRepo diagnosisRepo, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public PatientfileController(IRepo repository, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, UserManager<IdentityUser> userManager)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
             this.physiotherapistRepo = physiotherapistRepo;
-            this.client = new HttpClient()
-            {
-                BaseAddress = new Uri(configuration.GetConnectionString("BaseUrl"))
-            };
             this.remarkIRepo = remarkIRepo;
-            this.configuration = configuration;
             this.operationIRepo = operationIRepo;
-            this.sessionIRepo = sessionIRepo;
-            this.diagnosisRepo = diagnosisRepo;
             this.treatmentIRepo = treatmentIRepo;
             this.treatmentPlanIRepo = treatmentPlanIRepo;
             this.userManager = userManager;
+            patientValidation = new PatientValidation();
         }
 
         public void AddPatientsInViewbag()
@@ -60,6 +48,21 @@ namespace AvansFysioApp.Controllers
         public void AddPatientFilesInViewbag()
         {
             var patientFiles = fileRepository.Responses().Prepend(new PatientFile() { Id = -1, Title = "Select a patient" });
+            ViewBag.PatientFiles = new SelectList(patientFiles, "Id", "Title");
+        }
+
+        public void AddPatientFilesWithoutTreatmentInViewbag()
+        {
+            List<PatientFile> list = new List<PatientFile>();
+            foreach (PatientFile patientFile in fileRepository.Responses())
+            {
+                var tp = treatmentPlanIRepo.FindTreatmentPlanWithPatientFile(patientFile.Id);
+                if (tp == null)
+                {
+                    list.Add(patientFile);
+                }
+            }
+            var patientFiles = list.Prepend(new PatientFile() { Id = -1, Title = "Select a patient" });
             ViewBag.PatientFiles = new SelectList(patientFiles, "Id", "Title");
         }
 
@@ -78,7 +81,7 @@ namespace AvansFysioApp.Controllers
             ViewBag.Physiotherapists = new SelectList(physios, "Id", "Name");
         }
 
-        public async void AddPhysiotherapistsExceptInternInViewbag()
+        public void AddPhysiotherapistsExceptInternInViewbag()
         {
 
             List<Physiotherapist> noIntern = new List<Physiotherapist>();
@@ -103,6 +106,16 @@ namespace AvansFysioApp.Controllers
             ViewBag.PatientNoFile = new SelectList(list, "PatientId", "Name");
         }
 
+        public List<Treatment> AddTreatmentsToListByPatientFile(int id)
+        {
+            List<Treatment> list = new List<Treatment>();
+            foreach (Treatment treatment in treatmentIRepo.Treatments().Where((x) => x.PatientFileId == id))
+            {
+                list.Add(treatment);
+            }
+            return list;
+        }
+
         public void AddRemarksOfFileToViewBag(int id)
         {
             var list = remarkIRepo.GetRemarksByFile(id);
@@ -125,16 +138,33 @@ namespace AvansFysioApp.Controllers
         [HttpPost]
         public async Task<ActionResult> AddFileView(PatientFile patientFile)
         {
+            AddPhysioToList();
+            AddPatientToList();
+            AddPatientsWithNoPatientFile();
+            AddPhysiotherapistsInViewbag();
+            AddPhysiotherapistsExceptInternInViewbag();
             if (ModelState.IsValid)
             {
-                if (patientFile.SupervisionById == -1)
+                if (patientFile.SupervisionById == -1 || patientFile.HeadPractitionerId == -1 || patientFile.DateOfRegister > DateTime.Now || patientFile.DateOfEnd < DateTime.Now)
                 {
-                    ModelState.AddModelError("", "Please select a supervisor.");
-                    AddPhysioToList();
-                    AddPatientToList();
-                    AddPatientsWithNoPatientFile();
-                    AddPhysiotherapistsInViewbag();
-                    AddPhysiotherapistsExceptInternInViewbag();
+                    if (patientFile.SupervisionById == -1)
+                    {
+                        ModelState.AddModelError("", "Please select a supervisor.");
+                    }
+
+                    if (patientFile.HeadPractitionerId == -1)
+                    {
+                        ModelState.AddModelError("", "Head practitioner is required!");
+                    }
+
+                    if (patientFile.DateOfRegister > DateTime.Now)
+                    {
+                        ModelState.AddModelError("", "Date of register cannot be in the future!");
+                    }
+                    if (patientFile.DateOfEnd < DateTime.Now)
+                    {
+                        ModelState.AddModelError("", "Date of firing must be in the future!");
+                    }
                     return View(patientFile);
                 }
                 if (patientFile.PatientId != null)
@@ -178,8 +208,39 @@ namespace AvansFysioApp.Controllers
         [HttpPost]
         public ActionResult UpdateFileView(PatientFile patientFile)
         {
+            AddPhysioToList();
+            AddPatientToList();
+            AddPatientsInViewbag();
+            AddPhysiotherapistsInViewbag();
+            AddPhysiotherapistsExceptInternInViewbag();
             if (ModelState.IsValid)
             {
+                Physiotherapist physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)patientFile.IntakeById) ?? null;
+
+                if (physiotherapist == null || (physiotherapist.IsIntern && patientFile.SupervisionById == -1) || patientFile.HeadPractitionerId == -1 || patientFile.DateOfEnd < DateTime.Now)
+                {
+                    if (physiotherapist == null)
+                    {
+                        ModelState.AddModelError("", "Intake by is required!.");
+                        return View(patientFile);
+                    }
+
+                    if (patientFile.HeadPractitionerId == -1)
+                    {
+                        ModelState.AddModelError("", "Head practitioner is required!");
+                    }
+
+                    if (physiotherapist.IsIntern && patientFile.SupervisionById == -1)
+                    {
+                        ModelState.AddModelError("", "Supervision is required while taking an intake as an intern.");
+                    }
+                    if (patientFile.DateOfEnd < DateTime.Now)
+                    {
+                        ModelState.AddModelError("", "Date of firing must be in the future!");
+                    }
+                    return View(patientFile);
+                }
+
                 if (patientFile.SupervisionById == -1)
                 {
                     patientFile.SupervisionById = null;
@@ -189,6 +250,15 @@ namespace AvansFysioApp.Controllers
                 return RedirectToAction("DetailView", "Patient", new { id = patientFile.PatientId });
             }
             else return View(patientFile);
+        }
+
+        [HttpGet]
+        public IActionResult TreatmentView(int id)
+        {
+            Treatment treatment = treatmentIRepo.GetTreatment(id);
+            PatientFile patientFile = fileRepository.GetPatientFile(treatment.PatientFileId);
+            ViewBag.Id = patientFile.PatientId;
+            return View(AddTreatmentsToListByPatientFile(id));
         }
 
 
@@ -210,36 +280,109 @@ namespace AvansFysioApp.Controllers
             if (ModelState.IsValid)
             {
                 Operation operation = operationIRepo.GetOperation(TempData.Get<string>("operation"));
+                PatientFile patientFile = fileRepository.GetPatientFile(treatment.PatientFileId);
 
-                //var treatments = fileRepository.FindTreatmentswithPatientfileId(treatment.PatientFileId);
+                bool invalid =
+                    patientValidation.ReturnTrueWhenParticularitiesIsEmptyWithMandatoryExplanationTrue(operation,
+                        treatment);
 
-                if ((operation.MandatoryExplanation && treatment.Particularities == null))
+                bool invalidDate = patientValidation.ReturnTrueWhenDateIsOutsideRegistration(patientFile, treatment);
+
+
+                if (invalid || invalidDate)
                 {
-                    if (operation.MandatoryExplanation && treatment.Particularities == null)
-                    {
-                        ModelState.AddModelError("", "Particularities are mandatory with this treatment!");
-                    }
-                    /*
-                    if (t != null)
-                    {
-                        ModelState.AddModelError("", "This treatment is already added. Please try another one!");
-                    }*/
-                    TempData.Put("operation", operation.Value);
-                    return View(treatment);
+                        if (invalid)
+                        {
+                            ModelState.AddModelError("", "Particularities are mandatory with this treatment!");
+                        }
+                        if (invalidDate)
+                        {
+                            ModelState.AddModelError("", "Date of treatment must be before the date of firing, and after the date of registration.");
+                        }
+                        TempData.Put("operation", operation.Value);
+                        return View(treatment);
                 }
-
+                treatment.DateCreated = DateTime.Now;
                 treatment.Description = operation.Description;
                 treatment.Type = operation;
 
-                PatientFile patientFile = fileRepository.GetPatientFile(treatment.PatientFileId);
+                if (treatment.PhysiotherapistId == -1)
+                {
+                    treatment.PhysiotherapistId = patientFile.HeadPractitionerId;
+                }
                 treatment.PatientFile = patientFile;
 
-                treatmentIRepo.AddTreatment(treatment);
+                try
+                {
+                    treatmentIRepo.AddTreatment(treatment);
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "This treatment is already added. Please try another one!");
+                    return View(treatment);
+                }
                 return RedirectToAction("DetailView", "Patient", new { id = treatment.PatientFileId });
             }
             return View(treatment);
         }
 
+        [HttpGet]
+        public IActionResult EditTreatment(int id)
+        {
+            Treatment treatment = treatmentIRepo.GetTreatment(id);
+            AddPhysiotherapistsInViewbag();
+            AddPatientToList();
+            AddPatientFilesInViewbag();
+            return View(treatment);
+        }
+
+        [HttpPost]
+        public IActionResult EditTreatment(Treatment treatment)
+        {
+            AddPhysiotherapistsInViewbag();
+            AddPatientToList();
+            AddPatientFilesInViewbag();
+            if (ModelState.IsValid)
+            {
+                Operation operation = operationIRepo.GetOperation(treatment.TypeId);
+                PatientFile patientFile = fileRepository.GetPatientFile(treatment.PatientFileId);
+
+
+                if ((operation.MandatoryExplanation && treatment.Particularities == null) || treatment.DateOfTreatment > patientFile.DateOfEnd || (treatment.DateOfTreatment < patientFile.DateOfRegister))
+                {
+                    if (operation.MandatoryExplanation && treatment.Particularities == null)
+                    {
+                        ModelState.AddModelError("", "Particularities are mandatory with this treatment!");
+                    }
+                    if (treatment.DateOfTreatment > patientFile.DateOfEnd)
+                    {
+                        ModelState.AddModelError("", "Date of treatment must be before the date of firing.");
+                    }
+                    if (treatment.DateOfTreatment < patientFile.DateOfRegister)
+                    {
+                        ModelState.AddModelError("", "Date of treatment must be after the starting date of the patient.");
+                    }
+                    return View(treatment);
+                }
+
+                if (treatment.PhysiotherapistId == -1)
+                {
+                    treatment.PhysiotherapistId = patientFile.HeadPractitionerId;
+                }
+                
+                treatmentIRepo.UpdateTreatment(treatment);
+                return RedirectToAction("TreatmentView", "Patientfile", new { id = treatment.PatientFileId });
+            }
+            return View(treatment);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteTreatment(int id)
+        {
+            Treatment treatment = treatmentIRepo.GetTreatment(id);
+            treatmentIRepo.DeleteTreatmentWithTreatmentId(id);
+            return RedirectToAction("TreatmentView", "Patientfile", new { id = treatment.PatientFileId });
+        }
 
         [HttpGet]
         public IActionResult AddRemark()
@@ -262,15 +405,21 @@ namespace AvansFysioApp.Controllers
                 list.Add(remark);
                 file.Remarks = list;
                 fileRepository.UpdatePatientFile(file);
+                return RedirectToAction("DetailView", "Patient", new { id = file.PatientId });
             }
 
+            return View();
+        }
+
+        public IActionResult TreatmentView()
+        {
             return View();
         }
 
         [HttpGet]
         public IActionResult AddTreatmentPlan()
         {
-            AddPatientFilesInViewbag();
+            AddPatientFilesWithoutTreatmentInViewbag();
             return View();
         }
 

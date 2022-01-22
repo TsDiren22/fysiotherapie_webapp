@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AvansFysioApp.Models;
     using AvansFysioAppDomain.Domain;
     using AvansFysioAppDomainServices.DomainServices;
-    using AvansFysioAppInfrastructure.Repos;
     using AvansFysioAppInfrastructure.Seed;
     using Microsoft.AspNetCore.Identity;
 
@@ -77,10 +73,11 @@ namespace AvansFysioApp.Controllers
                 IdentityResult result = null;
                 if (patient != null)
                 {
+                    Debug.WriteLine(account.Email + " " + registerModel.Email);
                     result = await userManager.CreateAsync(account, registerModel.Password);
-
                 }
 
+                Debug.WriteLine(account.Email + " " + registerModel.Email);
 
                 if (patient != null)
                 {

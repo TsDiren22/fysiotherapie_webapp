@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using AvansFysioApp.ExtentionMethods;
-using AvansFysioApp.Models;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Repos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,17 +20,11 @@ namespace AvansFysioApp.Controllers
         private IRepo repository;
         private PatientFileIRepo fileRepository;
         private IPhysiotherapistRepo physiotherapistRepo;
-        private TreatmentPlanIRepo treatmentPlanIRepo;
-        private TreatmentIRepo treatmentIRepo;
-        private SessionIRepo sessionIRepo;
         private HttpClient client;
-        private IConfiguration configuration;
-        private UserManager<IdentityUser> userManager;
         private OperationIRepo operationIRepo;
         private IDiagnosisRepo diagnosisRepo;
-        private RemarkIRepo remarkIRepo;
 
-        public HomeController(IRepo repository, IDiagnosisRepo diagnosisRepo, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public HomeController(IRepo repository, IDiagnosisRepo diagnosisRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, OperationIRepo operationIRepo, IConfiguration configuration)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
@@ -46,14 +33,8 @@ namespace AvansFysioApp.Controllers
             {
                 BaseAddress = new Uri(configuration.GetConnectionString("BaseUrl"))
             };
-            this.remarkIRepo = remarkIRepo;
-            this.configuration = configuration;
             this.operationIRepo = operationIRepo;
-            this.sessionIRepo = sessionIRepo;
             this.diagnosisRepo = diagnosisRepo;
-            this.treatmentIRepo = treatmentIRepo;
-            this.treatmentPlanIRepo = treatmentPlanIRepo;
-            this.userManager = userManager;
         }
 
         public IActionResult Index()

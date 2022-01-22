@@ -1,0 +1,49 @@
+﻿@using AvansFysioAppDomain.Domain
+@model List<AvansFysioAppDomain.Domain.Treatment>
+    <h2>Treatments</h2>
+
+    @foreach (Treatment treatment in Model)
+    {
+        <div class="textBlocks2">
+            <table style="width: 100%">
+                <tr>
+                    <th>Description:</th>
+                    <td>@treatment.Description</td>
+                </tr>
+                <tr>
+                    <th>Date of treatment:</th>
+                    <td>@treatment.DateOfTreatment.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <th>Date treatment added:</th>
+                    <td>@treatment.DateCreated.ToShortDateString()</td>
+                </tr>
+                @if (treatment.Particularities != null)
+                {
+                    <tr>
+                        <th>Particularities:</th>
+                        <td>@treatment.Particularities</td>
+                    </tr>
+                }
+                <tr>
+                    <th>Treatment:</th>
+                    <td>@treatment.TypeId</td>
+                </tr>
+                <tr>
+                    <th>Room:</th>
+                    <td>@treatment.Room</td>
+                </tr>
+                @if (treatment.DateCreated.ToString("dd-MM-yyyy") == DateTime.Now.ToString("dd-MM-yyyy"))
+                {
+                    <tr>
+                        <th></th>
+                        <td><a asp-controller="Patientfile" asp-action="EditTreatment" asp-route-id="@treatment.Id">Edit treatment</a> | <a asp-controller="Patientfile" asp-action="DeleteTreatment" asp-route-id="@treatment.Id">Delete treatment</a></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+@if (ViewBag.Id != null)
+{
+    <a asp-controller="Patient" asp-action="DetailView" asp-route-id="@ViewBag.Id" class="btn btn-secondary">Patient details</a>
+}

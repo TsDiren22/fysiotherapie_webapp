@@ -1,12 +1,39 @@
 ﻿@using AvansFysioAppDomain.Domain
 @using Castle.Core.Internal
 @using AvansFysioApp.ExtentionMethods
+@using Microsoft.AspNetCore.Identity
 @model PatientDisplayViewModel
 @{
     PatientFile pf = ViewBag.PatientFile;
     List<Remark> remarks = ViewBag.Remarks;
     TreatmentPlan treatmentPlan = ViewBag.Tp;
-    List<Session> allSession = ViewBag.AppointmentList;
+    List<Session> sessions = ViewBag.AppointmentList;
+    var allSession = sessions.Where(a => a.PatientId == Model.PatientId && a.AppointmentEnd > DateTime.Now).ToList();
+    allSession.Sort((x, y) => x.AppointmentBegin.CompareTo(y.AppointmentBegin));
+    List<Treatment> treatments = ViewBag.Treatments;
+}
+@inject UserManager<IdentityUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+
+    bool IsPatient()
+    {
+        try
+        {
+            foreach (Patient p in ViewBag.Pat)
+            {
+                if (p.Email.Equals(user.Email))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }
 
 
@@ -19,7 +46,10 @@
             <th>
                 <h3>Patient:</h3>
             </th>
-            <td><a asp-controller="Patient" asp-action="EditPatientView" asp-route-id="@Model.PatientId">Edit Patient</a></td>
+            @if (!IsPatient())
+            {
+                <td><a asp-controller="Patient" asp-action="EditPatientView" asp-route-id="@Model.PatientId">Edit Patient</a></td>
+            }
         </tr>
         <tr>
             <th>Name:</th>
@@ -68,7 +98,10 @@
         {
             <tr>
                 <th>
-                    <a asp-controller="Patientfile" asp-action="UpdateFileView" asp-route-id="@pf.Id">Edit patient file</a>
+                    @if (!IsPatient())
+                    {
+                        <a asp-controller="Patientfile" asp-action="UpdateFileView" asp-route-id="@pf.Id">Edit patient file</a>
+                    }
                 </th>
                 <td></td>
             </tr>
@@ -111,44 +144,71 @@
                 <th>Date of register:</th>
                 <td>@pf.DateOfRegister.ToShortDateString()</td>
             </tr>
+
             <tr>
                 <th>End date:</th>
-                <td>@pf.DateOfEnd.ToShortDateString()</td>
+
+                @if (@pf.DateOfEnd != null)
+                {
+                    <td>@pf.DateOfEnd.Value.ToShortDateString()</td>
+                }
+                else
+                {
+                    <td>-</td>
+                }
             </tr>
-            @if (!pf.Treatments.IsNullOrEmpty())
+            @if (!treatments.IsNullOrEmpty())
             {
-                @for (int i = 0; i < pf.Treatments.Count; i++)
+                @for (int i = 0; i < treatments.Count; i++)
                 {
                     if (i == 0)
                     {
                         <tr>
                             <th>Treatments:</th>
-                            <td>-@pf.Treatments[i].Description</td>
+                            <td>@treatments[i]</td>
                         </tr>
                         continue;
                     }
                     <tr>
                         <th></th>
-                        <td>-@pf.Treatments[i].Description</td>
+                        <td>@treatments[i].Description</td>
+                    </tr>
+                }
+                if (treatments.Count != 0)
+                {
+                    <tr>
+                        <th></th>
+                        <td><a asp-controller="Patientfile" asp-action="TreatmentView" asp-route-id="@pf.Id">View all treatments</a></td>
                     </tr>
                 }
             }
 
-            <tr>
-                <th><a asp-controller="Home" asp-action="FindOperation" class="btn btn-primary">Add Treatment</a></th>
-            </tr>
+            @if (!IsPatient())
+            {
+                <tr>
+                    <th><a asp-controller="Home" asp-action="FindOperation" class="btn btn-primary">Add Treatment</a></th>
+                </tr>
+            }
         }
-        @if (pf == null)
-        {
-            <tr>
-                <td>
-                    There is no patient file available. <br />
-                    <a asp-controller="Patientfile" asp-action="AddFileView">Add to a patient file</a>
-                </td>
-            </tr>
-        }
+        <tr>
+            <td>
+                @if (pf == null)
+                {
+                    <p>
+                        There is no patient file available. <br />
+                    </p>
+
+                    @if (!IsPatient())
+                    {
+                        <a asp-controller="Patientfile" asp-action="AddFileView">Add to a patient file</a>
+
+                    }
+                }
+            </td>
+        </tr>
     </table>
 </div>
+
 
 <hr />
 
@@ -161,38 +221,55 @@
 
         @foreach (Remark r in remarks)
         {
+            @if ((IsPatient() && r.SeenByPatient) || !IsPatient())
+            {
+                <div class="textBlocks2">
+                    <table style="width: 100%">
+                        <tr>
+                            <th>Note made by:</th>
+                            <td>@r.RemarkMadeBy.Name</td>
+                        </tr>
+                        <tr>
+                            <th>Remark:</th>
+                            <td>@r.Note</td>
+                        </tr>
+                        <tr>
+                            <th>Placed on:</th>
+                            <td>@r.Date</td>
+                        </tr>
+                        <tr>
+                            @if (!IsPatient())
+                            {
+                                <th>Can be seen by patient:</th>
+                                <td>@r.SeenByPatient</td>
+                            }
+                        </tr>
+                    </table>
+                </div>
+            }
+        }
+        @if (!IsPatient())
+        {
             <div class="textBlocks2">
                 <table style="width: 100%">
                     <tr>
-                        <th>Note made by:</th>
-                        <td>@r.RemarkMadeBy.Name</td>
-                    </tr>
-                    <tr>
-                        <th>Remark:</th>
-                        <td>@r.Note</td>
-                    </tr>
-                    <tr>
-                        <th>Placed on:</th>
-                        <td>@r.Date</td>
+                        <th>
+                            <a asp-controller="Patientfile" asp-action="AddRemark">Add remark</a>
+                        </th>
                     </tr>
                 </table>
             </div>
         }
-        <div class="textBlocks2">
-            <table style="width: 100%">
-                <tr>
-                    <th>
-                        <a asp-controller="Patientfile" asp-action="AddRemark">Add remark</a>
-                    </th>
-                </tr>
-            </table>
-        </div>
+
     }
     else
     {
         <div class="textBlocks2">
             There are no remarks available. <br />
-            <a asp-controller="Patientfile" asp-action="AddRemark">Add remark</a>
+            @if (!IsPatient())
+            {
+                <a asp-controller="Patientfile" asp-action="AddRemark">Add remark</a>
+            }
         </div>
     }
     <hr />
@@ -206,23 +283,37 @@
     if (treatmentPlan != null)
     {
         <div class="textBlocks2">
-
-            <p>@treatmentPlan.Title</p>
-            <p>@treatmentPlan.Duration</p>
-            <p>@treatmentPlan.MaxSessions</p>
+            <table width="100%">
+                <tr>
+                    <th>Title:</th>
+                    <td>@treatmentPlan.Title</td>
+                </tr>
+                <tr>
+                    <th>Duration:</th>
+                    <td>@treatmentPlan.Duration minutes</td>
+                </tr>
+                <tr>
+                    <th>Amount of sessions:</th>
+                    <td>@treatmentPlan.MaxSessions sessions a week</td>
+                </tr>
+            </table>
         </div>
     }
     else
     {
         <div class="textBlocks2">
             There are no treatment plan available. <br />
-            <a asp-controller="Patientfile" asp-action="AddTreatmentPlan">Add treatment plan</a>
+            @if (!IsPatient())
+            {
+                <a asp-controller="Patientfile" asp-action="AddTreatmentPlan">Add treatment plan</a>
+            }
+
         </div>
     }
     <hr />
 }
 
-@if (pf != null && treatmentPlan!= null)
+@if (pf != null && treatmentPlan != null)
 {
     <h2>Appointments</h2>
     @if (!allSession.Any())
@@ -237,28 +328,40 @@
     {
         @foreach (Session a in allSession)
         {
-            if (a.PatientId == Model.PatientId)
-            {
-                <div class="textBlocks2">
-                    <table width="100%">
+            <div class="textBlocks2">
+                <table width="100%">
+                    <tr>
+                        <th>Physiotherapist:</th>
+                        <td>@a.HeadPhysiotherapist.Name</td>
+                    </tr>
+                    <tr>
+                        <th>Start:</th>
+                        <td>@a.AppointmentBegin</td>
+                    </tr>
+                    <tr>
+                        <th>End:</th>
+                        <td>@a.AppointmentEnd</td>
+                    </tr>
+                    @if (a.AppointmentBegin.AddHours(-24) >= DateTime.Now)
+                    {
                         <tr>
-                            <th>Start:</th>
-                            <td>@a.AppointmentBegin</td>
+                            <th></th>
+                            <td><a asp-controller="Appointment" asp-action="EditSession" asp-route-id="@a.Id">Edit appointment</a> | <a asp-controller="Appointment" asp-action="DeleteSession" asp-route-returnUrl="Patient/DetailView/@pf.PatientId" asp-route-id="@a.Id">Delete appointment</a></td>
                         </tr>
-                        <tr>
-                            <th>End:</th>
-                            <td>@a.AppointmentEnd</td>
-                        </tr>
-                    </table>
-                </div>
-            }
+                    }
+                </table>
+            </div>
         }
-
         <div class="textBlocks2">
             <a asp-controller="Appointment" asp-action="AddSession">Add appointment</a>
         </div>
 
+
     }
 }
 </div>
+
+
+
+
 

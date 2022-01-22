@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppInfrastructure.Data;
 
@@ -53,6 +50,12 @@ namespace AvansFysioAppInfrastructure.Repos
         public IEnumerable<Session> GetSessionsWithTreatmentPlanId(int id)
         {
             return context.Sessions.Where(i => i.TreatmentPlanId == id);
+        }
+
+        public void DeleteSessionWithSessionId(int id)
+        {
+            context.Sessions.Remove(GetSession(id));
+            context.SaveChanges();
         }
     }
 }

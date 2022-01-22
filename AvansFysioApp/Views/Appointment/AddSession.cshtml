@@ -10,11 +10,23 @@
             <label asp-for="TreatmentPlanId">Patient:</label>
             <select class="form-control" asp-for="TreatmentPlanId" asp-items="@ViewBag.TreatmentPlans"></select>
         </div>
+        @if (!ViewBag.IsIntern && ViewBag.IsPatient == null)
+        {
+            <div class="form-group">
+                <label asp-for="HeadPhysiotherapistId">Redirect to student:</label>
+                <select class="form-control" asp-for="HeadPhysiotherapistId" asp-items="@ViewBag.Intern"></select>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="HeadPhysiotherapistId"/>
+        }
+
         <div class="form-group">
             <label asp-for="AppointmentBegin">Time of appointment:</label>
-            <input class="form-control" asp-for="AppointmentBegin" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+            <input required="Time of appointment is required" class="form-control" asp-for="AppointmentBegin" asp-format="{0:yyyy-MM-ddTHH:mm}" />
         </div>
 
         <button type="submit" class="btn btn-primary">Make appointment</button>
-        <a asp-controller="Patient" asp-action="PatientList" class="btn btn-secondary">Cancel</a>
+        <a asp-controller="Appointment" asp-action="AppointmentList" class="btn btn-secondary">Cancel</a>
     </form>

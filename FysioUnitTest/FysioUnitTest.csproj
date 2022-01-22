@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pic\Physio.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pic\Physio.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -18,6 +29,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AvansFysioAppDomainServices\AvansFysioAppDomainServices.csproj" />
+    <ProjectReference Include="..\AvansFysioAppDomain\AvansFysioAppDomain.csproj" />
+    <ProjectReference Include="..\AvansFysioAppInfrastructure\AvansFysioAppInfrastructure.csproj" />
+    <ProjectReference Include="..\AvansFysioApp\AvansFysioApp.csproj" />
+    <ProjectReference Include="..\AvansPhysioAppWebAPI\AvansPhysioAppWebAPI.csproj" />
   </ItemGroup>
 
 </Project>

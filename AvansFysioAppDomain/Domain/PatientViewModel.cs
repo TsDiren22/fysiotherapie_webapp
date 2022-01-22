@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AvansFysioAppDomain.Domain.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
@@ -39,7 +35,7 @@ namespace AvansFysioAppDomain.Domain
         [Required(ErrorMessage = "Please enter your gender!")]
         public string Gender { get; set; }
 
-        public IFormFile? EditedPicture { get; set; }
+        public IFormFile EditedPicture { get; set; }
         public int GetAge()
         {
             var today = DateTime.Now;

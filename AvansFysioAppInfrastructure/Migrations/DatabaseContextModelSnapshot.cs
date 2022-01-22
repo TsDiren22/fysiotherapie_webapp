@@ -92,7 +92,7 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfEnd")
+                    b.Property<DateTime?>("DateOfEnd")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfRegister")
@@ -149,7 +149,7 @@ namespace AvansFysioAppInfrastructure.Migrations
                     b.Property<DateTime>("AvailabilityStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("BigId")
+                    b.Property<int?>("BigId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -201,7 +201,6 @@ namespace AvansFysioAppInfrastructure.Migrations
                             Id = 101,
                             AvailabilityEnd = new DateTime(1, 1, 1, 20, 0, 0, 0, DateTimeKind.Unspecified),
                             AvailabilityStart = new DateTime(1, 1, 1, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            BigId = 543,
                             Email = "def@def.com",
                             EmployeeId = 345,
                             IsIntern = true,
@@ -283,6 +282,9 @@ namespace AvansFysioAppInfrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfTreatment")
                         .HasColumnType("datetime2");

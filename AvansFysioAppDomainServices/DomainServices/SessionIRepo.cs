@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AvansFysioAppDomain.Domain;
 
 namespace AvansFysioAppInfrastructure.Repos
@@ -16,5 +12,6 @@ namespace AvansFysioAppInfrastructure.Repos
         IEnumerable<Session> GetSessionsWithPatientId(int id);
         IEnumerable<Session> GetSessionsWithTreatmentPlanId(int id);
         IEnumerable<Session> GetSessionsWithPhysiotherapistId(int id);
+        void DeleteSessionWithSessionId(int id);
     }
 }

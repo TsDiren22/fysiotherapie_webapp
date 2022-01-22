@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AvansFysioAppDomain.Domain
 {
@@ -16,7 +13,7 @@ namespace AvansFysioAppDomain.Domain
 
         public int EmployeeId { get; set; }
 
-        public int BigId { get; set; }
+        public int? BigId { get; set; }
         public bool IsIntern { get; set; }
         public DateTime AvailabilityStart { get; set; }
         public DateTime AvailabilityEnd { get; set; }

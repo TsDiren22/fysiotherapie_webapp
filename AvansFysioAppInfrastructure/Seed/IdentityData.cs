@@ -6,7 +6,7 @@ namespace AvansFysioAppInfrastructure.Seed
 {
     public class IdentityData
     {
-        private const string physiotherapistUser = "Diren";
+        private const string physiotherapistUser = "Physiotherapist";
         private const string emailPhysio = "abc@abc.com";
         private const string physiotherapistPassword = "abcd";
 
@@ -14,9 +14,9 @@ namespace AvansFysioAppInfrastructure.Seed
         private const string emailIntern = "def@def.com";
         private const string internPassword = "abcd";
 
-        private const string physiotherapistJustin = "Justin";
-        private const string emailJustin = "ghi@ghi.com";
-        private const string physiotherapistPasswordJustin = "abcd";
+        private const string physiotherapistDiren = "DirenPhysio";
+        private const string emailDiren = "ghi@ghi.com";
+        private const string physiotherapistPasswordDiren = "abcd";
 
 
         public static async Task EnsurePopulated(UserManager<IdentityUser> userManager)
@@ -45,15 +45,15 @@ namespace AvansFysioAppInfrastructure.Seed
                 await userManager.AddClaimAsync(player, new Claim("Intern", "true"));
             }
 
-            IdentityUser user2 = await userManager.FindByNameAsync(physiotherapistJustin);
+            IdentityUser user2 = await userManager.FindByNameAsync(physiotherapistDiren);
             if (user2 == null)
             {
                 user2 = new IdentityUser
                 {
-                    UserName = physiotherapistJustin,
-                    Email = emailJustin
+                    UserName = physiotherapistDiren,
+                    Email = emailDiren
                 };
-                await userManager.CreateAsync(user2, physiotherapistPasswordJustin);
+                await userManager.CreateAsync(user2, physiotherapistPasswordDiren);
                 await userManager.AddClaimAsync(user2, new Claim("Physiotherapist", "true"));
             }
         }

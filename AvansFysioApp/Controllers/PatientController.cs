@@ -3,15 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Repos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
 
 namespace AvansFysioApp.Controllers
 {
@@ -23,32 +18,18 @@ namespace AvansFysioApp.Controllers
         private TreatmentPlanIRepo treatmentPlanIRepo;
         private TreatmentIRepo treatmentIRepo;
         private SessionIRepo sessionIRepo;
-        private HttpClient client;
-        private IConfiguration configuration;
-        private UserManager<IdentityUser> userManager;
-        private OperationIRepo operationIRepo;
-        private IDiagnosisRepo diagnosisRepo;
         private RemarkIRepo remarkIRepo;
 
-        public PatientController(IRepo repository, IDiagnosisRepo diagnosisRepo, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public PatientController(IRepo repository, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, SessionIRepo sessionIRepo)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
             this.physiotherapistRepo = physiotherapistRepo;
-            this.client = new HttpClient()
-            {
-                BaseAddress = new Uri(configuration.GetConnectionString("BaseUrl"))
-            };
             this.remarkIRepo = remarkIRepo;
-            this.configuration = configuration;
-            this.operationIRepo = operationIRepo;
             this.sessionIRepo = sessionIRepo;
-            this.diagnosisRepo = diagnosisRepo;
             this.treatmentIRepo = treatmentIRepo;
             this.treatmentPlanIRepo = treatmentPlanIRepo;
-            this.userManager = userManager;
         }
-
 
         public void AddPhysioToList()
         {
@@ -58,6 +39,16 @@ namespace AvansFysioApp.Controllers
         public void AddPatientToList()
         {
             ViewBag.Pat = repository.Patients();
+        }
+
+        public void AddTreatmentsToListByPatientList(int id)
+        {
+            List<Treatment> list = new List<Treatment>();
+            foreach (Treatment treatment in treatmentIRepo.Treatments().Where((x) => x.PatientFileId == id))
+            {
+                list.Add(treatment);
+            }
+            ViewBag.Treatments = list;
         }
 
         public void AddAppointmentsInViewbag(string email)
@@ -70,7 +61,7 @@ namespace AvansFysioApp.Controllers
             {
                 foreach (var a in sessionIRepo.Sessions())
                 {
-                    if (a.PatientId == patient.PatientId)
+                    if (a!= null && a.PatientId == patient.PatientId)
                     {
                         list.Add(a);
                     }
@@ -80,7 +71,7 @@ namespace AvansFysioApp.Controllers
             {
                 foreach (var a in sessionIRepo.Sessions())
                 {
-                    if (a.HeadPhysiotherapistId == physiotherapist.Id)
+                    if (a != null && a.HeadPhysiotherapistId == physiotherapist.Id)
                     {
                         list.Add(a);
                     }
@@ -109,10 +100,10 @@ namespace AvansFysioApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (repository.GetPatientByEmail(patientViewModel.Email) != null)
+                if (repository.GetPatientByEmail(patientViewModel.Email) != null | physiotherapistRepo.getPhysiotherapistByEmail(patientViewModel.Email) != null)
                 {
                     ModelState.AddModelError("", "Email is already in use.");
-                    return View();
+                    return View(patientViewModel);
                 }
 
                 var patient = new Patient
@@ -208,8 +199,7 @@ namespace AvansFysioApp.Controllers
             AddPatientToList();
             return View("PatientList", repository.Patients());
         }
-
-        [Authorize(Policy = "InternOrPhysioOnly")]
+        
         [HttpGet]
         public ActionResult DetailView(int id)
         {
@@ -223,6 +213,7 @@ namespace AvansFysioApp.Controllers
             {
                 AddRemarksOfFileToViewBag(patientFile.Id);
                 ViewBag.Tp = treatmentPlanIRepo.GetTreatmentPlan(patientFile.Id);
+                AddTreatmentsToListByPatientList(patientFile.Id);
             }
 
             var viewModel = new PatientDisplayViewModel

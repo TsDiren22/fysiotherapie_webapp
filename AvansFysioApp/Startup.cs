@@ -103,6 +103,10 @@ namespace AvansFysioApp
                     pattern: "Home/EditSession/{id}",
                     defaults: new { controller = "Appointment", action = "EditSession" });
                 endpoints.MapControllerRoute(
+                    name: "TreatmentView",
+                    pattern: "Home/TreatmentView/{id}",
+                    defaults: new { controller = "Patientfile", action = "TreatmentView" });
+                endpoints.MapControllerRoute(
                     name: "Login",
                     pattern: "Account/Login",
                     defaults: new { controller = "Account", action = "Login" });

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Data;
@@ -32,6 +29,19 @@ namespace AvansFysioAppInfrastructure.Repos
         public Treatment GetTreatment(int id)
         {
             return Treatments().FirstOrDefault(i => i.Id == id);
+        }
+
+        public void DeleteTreatmentWithTreatmentId(int id)
+        {
+            context.Treatments.Remove(GetTreatment(id));
+            context.SaveChanges();
+        }
+
+        public void UpdateTreatment(Treatment treatment)
+        {
+            Treatment exist = context.Set<Treatment>().Find(treatment.Id);
+            context.Entry(exist).CurrentValues.SetValues(treatment);
+            context.SaveChanges();
         }
     }
 }

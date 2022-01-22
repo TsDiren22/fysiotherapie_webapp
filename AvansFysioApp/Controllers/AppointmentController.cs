@@ -3,15 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
+using AvansFysioAppDomainServices.Validation;
 using AvansFysioAppInfrastructure.Repos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
 
 namespace AvansFysioApp.Controllers
 {
@@ -22,30 +20,16 @@ namespace AvansFysioApp.Controllers
         private PatientFileIRepo fileRepository;
         private IPhysiotherapistRepo physiotherapistRepo;
         private TreatmentPlanIRepo treatmentPlanIRepo;
-        private TreatmentIRepo treatmentIRepo;
         private SessionIRepo sessionIRepo;
-        private HttpClient client;
-        private IConfiguration configuration;
         private UserManager<IdentityUser> userManager;
-        private OperationIRepo operationIRepo;
-        private IDiagnosisRepo diagnosisRepo;
-        private RemarkIRepo remarkIRepo;
+        private AppointmentValidation appointmentValidation = new AppointmentValidation();
 
-        public AppointmentController(IRepo repository, IDiagnosisRepo diagnosisRepo, RemarkIRepo remarkIRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, TreatmentIRepo treatmentIRepo, OperationIRepo operationIRepo, SessionIRepo sessionIRepo, IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public AppointmentController(IRepo repository, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, TreatmentPlanIRepo treatmentPlanIRepo, SessionIRepo sessionIRepo, UserManager<IdentityUser> userManager)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
             this.physiotherapistRepo = physiotherapistRepo;
-            this.client = new HttpClient()
-            {
-                BaseAddress = new Uri(configuration.GetConnectionString("BaseUrl"))
-            };
-            this.remarkIRepo = remarkIRepo;
-            this.configuration = configuration;
-            this.operationIRepo = operationIRepo;
             this.sessionIRepo = sessionIRepo;
-            this.diagnosisRepo = diagnosisRepo;
-            this.treatmentIRepo = treatmentIRepo;
             this.treatmentPlanIRepo = treatmentPlanIRepo;
             this.userManager = userManager;
         }
@@ -64,28 +48,45 @@ namespace AvansFysioApp.Controllers
         {
             ViewBag.Pat = repository.Patients();
         }
-        
 
-        public void AddPatientsWithNoPatientFile()
+        public void AddInternInViewbag()
         {
-            List<Patient> list = new List<Patient>();
-            foreach (var p in repository.Patients())
-                if (fileRepository.FindFileWithPatientId(p.PatientId) == null) list.Add(p);
-            ViewBag.PatientNoFile = new SelectList(list, "PatientId", "Name");
+
+            List<Physiotherapist> isIntern = new List<Physiotherapist>();
+
+            foreach (Physiotherapist p in physiotherapistRepo.Physiotherapists())
+            {
+                if (p.IsIntern)
+                {
+                    isIntern.Add(p);
+                }
+            }
+
+            var physios = isIntern.Prepend(new Physiotherapist() { Id = -1, Name = "(Optional) Leave empty to choose head practitioner." });
+            ViewBag.Intern = new SelectList(physios, "Id", "Name");
         }
 
-        public void AddRemarksOfFileToViewBag(int id)
+        public bool IsIntern(string email)
         {
-            var list = remarkIRepo.GetRemarksByFile(id);
-            ViewBag.Remarks = list;
+
+            Physiotherapist isIntern = new Physiotherapist();
+
+            foreach (Physiotherapist p in physiotherapistRepo.Physiotherapists())
+            {
+                if (p.Email.Equals(email) && p.IsIntern)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AddSession()
+
+        public void AddTreatmentPlanToViewbagByEmail(string email)
         {
-            var user = await userManager.GetUserAsync(User);
+            var patient = repository.GetPatientByEmail(email);
             List<TreatmentPlan> list = new List<TreatmentPlan>();
-            var patient = repository.GetPatientByEmail(user.Email);
 
             if (patient != null)
             {
@@ -95,14 +96,24 @@ namespace AvansFysioApp.Controllers
             }
             else
             {
-                var physio = physiotherapistRepo.getPhysiotherapistByEmail(user.Email);
-                var treatmentPlans = treatmentPlanIRepo.findTreatmentPlanWithPhysiotherapistId(physio.Id);
+                var physio = physiotherapistRepo.getPhysiotherapistByEmail(email);
+                var treatmentPlans = treatmentPlanIRepo.TreatmentPlans();
                 foreach (TreatmentPlan treatmentPlan in treatmentPlans)
                 {
                     list.Add(treatmentPlan);
                 }
             }
             ViewBag.TreatmentPlans = new SelectList(list, "Id", "Title");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddSession()
+        {
+            var user = await userManager.GetUserAsync(User);
+            AddTreatmentPlanToViewbagByEmail(user.Email);
+            AddInternInViewbag();
+            ViewBag.IsIntern = IsIntern(user.Email);
+            ViewBag.IsPatient = repository.GetPatientByEmail(user.Email);
             return View();
         }
 
@@ -112,92 +123,125 @@ namespace AvansFysioApp.Controllers
             AddPhysioToList();
             AddPatientToList();
             AddPatientsInViewbag();
+            AddInternInViewbag();
             var user = await userManager.GetUserAsync(User);
-            List<TreatmentPlan> list = new List<TreatmentPlan>();
-            var patient = repository.GetPatientByEmail(user.Email);
-
-            if (patient != null)
-            {
-                PatientFile patientFile = fileRepository.FindFileWithPatientId(patient.PatientId);
-                TreatmentPlan treatmentPlan = treatmentPlanIRepo.FindTreatmentPlanWithPatientFile(patientFile.Id);
-                list.Add(treatmentPlan);
-            }
-            else
-            {
-                var physio = physiotherapistRepo.getPhysiotherapistByEmail(user.Email);
-                var treatmentPlans = treatmentPlanIRepo.findTreatmentPlanWithPhysiotherapistId(physio.Id);
-                foreach (TreatmentPlan treatmentPlan in treatmentPlans)
-                {
-                    list.Add(treatmentPlan);
-                }
-            }
-            ViewBag.TreatmentPlans = new SelectList(list, "Id", "Title");
+            ViewBag.IsPatient = repository.GetPatientByEmail(user.Email);
+            ViewBag.IsIntern = IsIntern(user.Email);
+            AddTreatmentPlanToViewbagByEmail(user.Email);
 
             if (ModelState.IsValid)
             {
                 TreatmentPlan treatmentPlan = treatmentPlanIRepo.GetTreatmentPlan(session.TreatmentPlanId);
                 int size = 0;
-
-                var currentCulture = CultureInfo.CurrentCulture;
-                var weekNumber1 = currentCulture.Calendar.GetWeekOfYear(
-                    session.AppointmentBegin,
-                    currentCulture.DateTimeFormat.CalendarWeekRule,
-                    currentCulture.DateTimeFormat.FirstDayOfWeek);
-                foreach (Session s in sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id))
-                {
-                    var weekNumber2 = currentCulture.Calendar.GetWeekOfYear(
-                        s.AppointmentBegin,
-                        currentCulture.DateTimeFormat.CalendarWeekRule,
-                        currentCulture.DateTimeFormat.FirstDayOfWeek);
-                    if (weekNumber1 == weekNumber2)
-                    {
-                        size++;
-                    }
-                }
-                if (size >= treatmentPlan.MaxSessions)
-                {
-                    ModelState.AddModelError("", "The maximum amount of sessions this week have been reached.");
-                    return View(session);
-                }
-
                 PatientFile patientFile = fileRepository.GetPatientFile(treatmentPlan.FileId);
                 Physiotherapist physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)patientFile.HeadPractitionerId);
                 Patient p = repository.GetPatient((int)patientFile.PatientId);
 
+                if (session.HeadPhysiotherapistId == -1 || session.HeadPhysiotherapistId == null)
+                {
+                    session.HeadPhysiotherapistId = physiotherapist.Id;
+                }
+                else
+                {
+                    physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)session.HeadPhysiotherapistId);
+                }
+
+
+
                 session.AppointmentMade = DateTime.Now;
-                session.HeadPhysiotherapist = physiotherapist;
                 session.PatientId = p.PatientId;
                 session.AppointmentEnd = session.AppointmentBegin.AddMinutes(treatmentPlan.Duration);
+
+                List<Session> sessions = sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id).ToList();
+
+                bool physiotherapistAvailable = appointmentValidation.PhysioIsAvailable(
+                    sessionIRepo.GetSessionsWithPhysiotherapistId(physiotherapist.Id).ToList(), session,
+                    physiotherapist);
+
+
+                if (appointmentValidation.CheckIfSessionsPerWeekWillBeExceeded(session, treatmentPlan.MaxSessions, sessions) || !physiotherapistAvailable || patientFile.DateOfEnd < session.AppointmentEnd)
+                {
+                    if (appointmentValidation.CheckIfSessionsPerWeekWillBeExceeded(session, treatmentPlan.MaxSessions, sessions))
+                    {
+                        ModelState.AddModelError("", "The maximum amount of sessions this week have been reached.");
+                    }
+
+                    if (!physiotherapistAvailable)
+                    {
+                        ModelState.AddModelError("", "The physiotherapist is unavailable at this time of the day. This physiotherapist is available between " + physiotherapist.AvailabilityStart.ToString("HH:mm") + " and " + physiotherapist.AvailabilityEnd.AddMinutes(-treatmentPlan.Duration).ToString("HH:mm") + "!");
+                    }
+
+                    if (patientFile.DateOfEnd < session.AppointmentEnd)
+                    {
+                        ModelState.AddModelError("", "Appointment must be set before the date of firing: " + patientFile.DateOfEnd.Value.ToString("dd-MM-yyyy"));
+                    }
+                    return View(session);
+                }
+
                 sessionIRepo.AddSession(session);
 
                 return RedirectToAction("DetailView", "Patient", new { id = p.PatientId });
             }
             return View(session);
         }
+        
+        public IActionResult DeleteSession(int id, string returnUrl = "Appointment/AppointmentList")
+        {
+            Session session = sessionIRepo.GetSession(id);
+            if (appointmentValidation.CheckHoursBeforeAppointmentDeleteIsNotTwentyFour(session))
+            {
+                return Redirect("../../" + returnUrl);
+            }
+
+            sessionIRepo.DeleteSessionWithSessionId(id);
+            return Redirect("../../" + returnUrl);
+        }
 
         [HttpGet]
-        public IActionResult EditSession(int id)
+        public async Task<IActionResult> EditSession(int id)
         {
             var s = sessionIRepo.GetSession(id);
-
+            AddInternInViewbag();
+            var user = await userManager.GetUserAsync(User);
+            ViewBag.IsPatient = repository.GetPatientByEmail(user.Email);
+            ViewBag.IsIntern = IsIntern(user.Email);
             return View(s);
         }
 
         [HttpPost]
-        public IActionResult EditSession(Session session)
+        public async Task<IActionResult> EditSession(Session session)
         {
+            AddInternInViewbag();
+            var user = await userManager.GetUserAsync(User);
+            ViewBag.IsPatient = repository.GetPatientByEmail(user.Email);
+            ViewBag.IsIntern = IsIntern(user.Email);
             if (ModelState.IsValid)
             {
                 var s = sessionIRepo.GetSession(session.Id);
                 var treatmentPlan = treatmentPlanIRepo.GetTreatmentPlan(s.TreatmentPlanId);
                 int size = 0;
 
+                Physiotherapist physiotherapist = physiotherapistRepo.GetPhysiotherapist(treatmentPlan.PhysiotherapistId);
+
+                if (session.HeadPhysiotherapistId == -1 || session.HeadPhysiotherapistId == null)
+                {
+                    s.HeadPhysiotherapistId = physiotherapist.Id;
+                }
+                else
+                {
+                    physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)session.HeadPhysiotherapistId);
+                    s.HeadPhysiotherapistId = physiotherapist.Id;
+                }
+
+                int duration = s.AppointmentEnd.Minute - s.AppointmentBegin.Minute;
+                s.AppointmentBegin = session.AppointmentBegin;
+                s.AppointmentEnd = session.AppointmentBegin.AddMinutes(duration);
                 var currentCulture = CultureInfo.CurrentCulture;
                 var weekNumber1 = currentCulture.Calendar.GetWeekOfYear(
                     session.AppointmentBegin,
                     currentCulture.DateTimeFormat.CalendarWeekRule,
                     currentCulture.DateTimeFormat.FirstDayOfWeek);
-                foreach (Session se in sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id))
+                foreach (Session se in sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id).Where((x) => x.Id != s.Id))
                 {
                     var weekNumber2 = currentCulture.Calendar.GetWeekOfYear(
                         se.AppointmentBegin,
@@ -208,23 +252,48 @@ namespace AvansFysioApp.Controllers
                         size++;
                     }
                 }
-                if (size >= treatmentPlan.MaxSessions)
+                IEnumerable<Session> appointmentsOfPhysio = sessionIRepo.GetSessionsWithPhysiotherapistId((int)physiotherapist.Id).Where((x) => x.Id != session.Id);
+                bool physiotherapistUnavailable = false;
+                foreach (Session appointment in appointmentsOfPhysio)
                 {
-                    ModelState.AddModelError("", "The maximum amount of sessions this week have been reached.");
+                    bool overlap = ((appointment.AppointmentBegin < s.AppointmentEnd && s.AppointmentBegin < appointment.AppointmentEnd) || s.AppointmentBegin.TimeOfDay < physiotherapist.AvailabilityStart.TimeOfDay || s.AppointmentEnd.TimeOfDay > physiotherapist.AvailabilityEnd.TimeOfDay);
+                    if (overlap)
+                    {
+                        physiotherapistUnavailable = true;
+                    }
+                }
+
+                PatientFile patientFile = fileRepository.GetPatientFile(treatmentPlan.FileId);
+
+                if (size >= treatmentPlan.MaxSessions || physiotherapistUnavailable || patientFile.DateOfEnd < session.AppointmentEnd)
+                {
+                    if (size >= treatmentPlan.MaxSessions)
+                    {
+                        ModelState.AddModelError("", "The maximum amount of sessions this week have been reached.");
+                    }
+
+                    if (physiotherapistUnavailable)
+                    {
+                        ModelState.AddModelError("", "The physiotherapist is unavailable at this time of the day. Please try between " + physiotherapist.AvailabilityStart.ToString("HH:mm") + " and " + physiotherapist.AvailabilityEnd.AddMinutes(-treatmentPlan.Duration).ToString("HH:mm") + "!");
+                    }
+                    if (patientFile.DateOfEnd < session.AppointmentEnd)
+                    {
+                        ModelState.AddModelError("", "Appointment must be set before the date of firing: " + patientFile.DateOfEnd.Value.ToString("dd-MM-yyyy"));
+                    }
                     return View(session);
                 }
-                int duration = s.AppointmentEnd.Minute - s.AppointmentBegin.Minute;
-                s.AppointmentBegin = session.AppointmentBegin;
-                s.AppointmentEnd = session.AppointmentBegin.AddMinutes(duration);
+
                 sessionIRepo.UpdateSession(s);
-                return RedirectToAction("index", "Home");
+                return RedirectToAction("DetailView", "Patient", new { id =  s.PatientId});
             }
             return View(session);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AppointmentList()
+        public async Task<IActionResult> AppointmentList(DateTime? date = null)
         {
+            date ??= DateTime.Now;
+
             var user = await userManager.GetUserAsync(User);
             var patient = repository.GetPatientByEmail(user.Email);
             var physio = physiotherapistRepo.getPhysiotherapistByEmail(user.Email);
@@ -232,11 +301,17 @@ namespace AvansFysioApp.Controllers
             if (patient != null)
             {
                 PatientFile patientFile = fileRepository.FindFileWithPatientId(patient.PatientId);
-                return View(sessionIRepo.GetSessionsWithPatientId(patient.PatientId).ToList());
+                var list = sessionIRepo.GetSessionsWithPatientId(patient.PatientId).ToList();
+                list.Sort((x, y) => x.AppointmentBegin.CompareTo(y.AppointmentBegin));
+                ViewBag.IsPatient = true;
+                return View(list);
             }
             else
             {
-                return View(sessionIRepo.GetSessionsWithPhysiotherapistId(physio.Id).ToList());
+                var list = sessionIRepo.GetSessionsWithPhysiotherapistId(physio.Id).Where((x) => x.AppointmentBegin.ToShortDateString().Equals(date.Value.ToShortDateString())).ToList();
+                list.Sort((x, y) => x.AppointmentBegin.CompareTo(y.AppointmentBegin));
+                ViewBag.IsPatient = false;
+                return View(list);
             }
         }
 

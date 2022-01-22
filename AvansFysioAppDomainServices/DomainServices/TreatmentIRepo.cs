@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AvansFysioAppDomain.Domain;
 
 namespace AvansFysioAppDomainServices.DomainServices
@@ -11,5 +8,8 @@ namespace AvansFysioAppDomainServices.DomainServices
         void AddTreatment(Treatment treatment);
         IEnumerable<Treatment> Treatments();
         Treatment GetTreatment(int id);
+        void DeleteTreatmentWithTreatmentId(int id);
+        void UpdateTreatment(Treatment treatment);
+
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using AvansFysioAppDomain.Domain.DataAnnotations;
 
 namespace AvansFysioAppDomain.Domain
 {
@@ -16,6 +14,8 @@ namespace AvansFysioAppDomain.Domain
         public Physiotherapist HeadPhysiotherapist { get; set; }
         public int? HeadPhysiotherapistId { get; set; }
         public DateTime AppointmentMade { get; set; }
+        [Required(ErrorMessage = "Time of appointment is required!")]
+        [DateAnnotations(ErrorMessage = "An appointment must be set in the future")]
         public DateTime AppointmentBegin { get; set; }
         public DateTime AppointmentEnd { get; set; }
     }

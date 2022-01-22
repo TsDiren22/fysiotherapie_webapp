@@ -6,6 +6,7 @@
 @inject UserManager<IdentityUser> UserManager
 @{
     var user = await UserManager.GetUserAsync(User);
+    int userId = 0;
 }
 @{
     bool IsPhysio()
@@ -34,6 +35,7 @@
             {
                 if (p.Email.Equals(user.Email))
                 {
+                    userId = p.PatientId;
                     return true;
                 }
             }
@@ -50,18 +52,42 @@
 
 @if (User.Identity.IsAuthenticated && IsPhysio())
 {
-    <a asp-controller="Patient" asp-action="PatientList">
-        <div class="containerImg">
-            <img src="\Photos\Physio.jpg" class="image" alt="Access patient list">
-            <div class="overlay">
-                <div class="text">Patient list</div>
-            </div>
-        </div>
+        <table width=100%>
+            <tr>
+                <td valign="top">
+                    <div style="width: 600px">
+                        <a asp-controller="Patient" asp-action="PatientList">
+                            <div class="containerImg">
+                                <img src="\Photos\Patient3.jpeg" class="image" alt="Access patient list">
+                                <div class="overlay">
+                                    <div class="text">Patient list</div>
+                                </div>
+                            </div>
 
-        <div class="bottomImg">
-            <p>Here you can access your list of patients. You can add new patients, edit them, and access their details.</p>
-        </div>
-    </a>
+                            <div class="bottomImg">
+                                <p>Here you can access your list of all patients.</p>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+                <td valign="top">
+                    <div style="width: 600px;">
+                        <a asp-controller="Appointment" asp-action="AppointmentList">
+                            <div class="containerImg">
+                                <img src="\Photos\Patients2.jpg" class="image" alt="appointments">
+                                <div class="overlay">
+                                    <div class="text">Appointments</div>
+                                </div>
+                            </div>
+
+                            <div class="bottomImg">
+                                <p>Here you can see your upcoming appointments.</p>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
 }
 
 @if (User.Identity.IsAuthenticated && IsPatient())
@@ -69,28 +95,28 @@
     <table width=100%>
         <tr>
             <td valign="top">
-                <div style="width: 100%">
-                    <a asp-controller="Appointment" asp-action="AddSession">
+                <div style="width: 600px">
+                    <a asp-controller="Patient" asp-action="DetailView" asp-route-id="@userId">
                         <div class="containerImg">
-                            <img src="\Photos\Patient3.jpeg" class="image" alt="Make Appointments">
+                            <img src="\Photos\Patient3.jpeg" class="image" alt="View your files">
                             <div class="overlay">
-                                <div class="text">Make an appointment</div>
+                                <div class="text"> View your file </div>
                             </div>
                         </div>
 
                         <div class="bottomImg">
-                            <p>Make an appointment with your physiotherapist.</p>
+                            <p>Here you can view your patient files info.</p>
                         </div>
                     </a>
                 </div>
             </td>
             <td valign="top">
-                <div style="width: 100%">
+                <div style="width: 600px;">
                     <a asp-controller="Appointment" asp-action="AppointmentList">
                         <div class="containerImg">
                             <img src="\Photos\Patients2.jpg" class="image" alt="appointments">
                             <div class="overlay">
-                                <div class="text">Upcoming appointments</div>
+                                <div class="text">Appointments</div>
                             </div>
                         </div>
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AvansFysioAppDomain.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,7 +43,7 @@ namespace AvansFysioAppInfrastructure.Data
                 new Physiotherapist()
                 {
                     Id = 100,
-                    Name = "Justin Physio",
+                    Name = "Direntwee Physio",
                     Email = "ghi@ghi.com",
                     Phone = "0687654321",
                     IsIntern = false,
@@ -64,7 +61,7 @@ namespace AvansFysioAppInfrastructure.Data
                     Phone = "0612348765",
                     IsIntern = true,
                     EmployeeId = 345,
-                    BigId = 543,
+                    BigId = null,
                     AvailabilityStart = new DateTime(1, 1, 1, 11, 0, 0),
                     AvailabilityEnd = new DateTime(1, 1, 1, 20, 0, 0)
                 });
