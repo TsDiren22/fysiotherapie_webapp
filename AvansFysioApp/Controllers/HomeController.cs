@@ -46,11 +46,8 @@ namespace AvansFysioApp.Controllers
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var user = await userManager.GetUserAsync(User);
-            ViewBag.IsPatient = repository.GetPatientByEmail(user.Email);
-            ViewBag.IsPhysio = physiotherapistRepo.getPhysiotherapistByEmail(user.Email);
             AddPhysioToList();  
             AddPatientToList();
             return View(repository.Patients());
