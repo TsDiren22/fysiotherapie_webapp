@@ -77,7 +77,7 @@ namespace AvansFysioApp
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+/*
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -86,13 +86,23 @@ namespace AvansFysioApp
 
                 endpoints.MapControllerRoute(
                     name: "Slug",
-                    pattern: "Home",
+                    pattern: "Home/Index",
                     defaults: new {controller = "Home", action = "Index"});
 
                 endpoints.MapControllerRoute(
                     name: "Patients",
                     pattern: "Home/Patients",
                     defaults: new { controller = "Patient", action = "PatientList" });
+
+                endpoints.MapControllerRoute(
+                    name: "Patients",
+                    pattern: "Home/Patient",
+                    defaults: new { controller = "Patientfile", action = "AddFileView" });
+
+                endpoints.MapControllerRoute(
+                    name: "Patients",
+                    pattern: "Home/Patients",
+                    defaults: new { controller = "Patientfile", action = "UpdateFileView"});
 
                 endpoints.MapControllerRoute(
                     name: "EditPatient",
@@ -115,7 +125,7 @@ namespace AvansFysioApp
                     name: "Register",
                     pattern: "Account/Register",
                     defaults: new { controller = "Account", action = "Register" });
-            });
+            });*/
 
         }
     }
