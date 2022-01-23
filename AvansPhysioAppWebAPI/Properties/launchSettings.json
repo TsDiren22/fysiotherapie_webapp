@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:40674",
+      "applicationUrl": "https://direnavansfysiosecond.azurewebsites.net",
       "sslPort": 44360
     }
   },

@@ -88,7 +88,7 @@ namespace AvansFysioApp
                     name: "Slug",
                     pattern: "Home/Index",
                     defaults: new {controller = "Home", action = "Index"});
-/*
+
                 endpoints.MapControllerRoute(
                     name: "Patients",
                     pattern: "Home/Patients",
@@ -124,7 +124,7 @@ namespace AvansFysioApp
                 endpoints.MapControllerRoute(
                     name: "Register",
                     pattern: "Account/Register",
-                    defaults: new { controller = "Account", action = "Register" });*/
+                    defaults: new { controller = "Account", action = "Register" });
             });
 
         }
