@@ -23,7 +23,7 @@ namespace AvansFysioAppDomainServices.Validation
             bool physiotherapistAvailable = true;
             foreach (Session appointment in appointmentsOfPhysio)
             {
-                if ((!availability(appointment.AppointmentBegin, appointment.AppointmentEnd, session.AppointmentBegin, session.AppointmentEnd)) || (!timeOfPhysio(session.AppointmentBegin, session.AppointmentEnd, physiotherapist.AvailabilityStart, physiotherapist.AvailabilityEnd)))
+                if ((availability(appointment.AppointmentBegin, appointment.AppointmentEnd, session.AppointmentBegin, session.AppointmentEnd)) || (timeOfPhysio(session.AppointmentBegin, session.AppointmentEnd, physiotherapist.AvailabilityStart, physiotherapist.AvailabilityEnd)))
                 {
                     physiotherapistAvailable = false;
                 }

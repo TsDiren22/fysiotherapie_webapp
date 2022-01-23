@@ -33,7 +33,7 @@
                     <th>Room:</th>
                     <td>@treatment.Room</td>
                 </tr>
-                @if (treatment.DateCreated.ToString("dd-MM-yyyy") == DateTime.Now.ToString("dd-MM-yyyy"))
+                @if (treatment.DateCreated.ToString("dd-MM-yyyy") == DateTime.Now.ToString("dd-MM-yyyy") && ViewBag.IsPatient == null)
                 {
                     <tr>
                         <th></th>

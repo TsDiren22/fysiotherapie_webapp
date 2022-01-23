@@ -253,10 +253,12 @@ namespace AvansFysioApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult TreatmentView(int id)
+        public async Task<IActionResult> TreatmentView(int id)
         {
             Treatment treatment = treatmentIRepo.GetTreatment(id);
             PatientFile patientFile = fileRepository.GetPatientFile(treatment.PatientFileId);
+            var user = await userManager.GetUserAsync(User);
+            ViewBag.IsPatient = repository.GetPatientByEmail(user.Email);
             ViewBag.Id = patientFile.PatientId;
             return View(AddTreatmentsToListByPatientFile(id));
         }

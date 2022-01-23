@@ -221,58 +221,36 @@ namespace AvansFysioApp.Controllers
                 var treatmentPlan = treatmentPlanIRepo.GetTreatmentPlan(s.TreatmentPlanId);
                 int size = 0;
 
-                Physiotherapist physiotherapist = physiotherapistRepo.GetPhysiotherapist(treatmentPlan.PhysiotherapistId);
-
                 if (session.HeadPhysiotherapistId == -1 || session.HeadPhysiotherapistId == null)
                 {
-                    s.HeadPhysiotherapistId = physiotherapist.Id;
+                    session.HeadPhysiotherapistId = s.HeadPhysiotherapistId;
                 }
                 else
                 {
-                    physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)session.HeadPhysiotherapistId);
-                    s.HeadPhysiotherapistId = physiotherapist.Id;
+                    s.HeadPhysiotherapistId = session.HeadPhysiotherapistId;
                 }
 
-                int duration = s.AppointmentEnd.Minute - s.AppointmentBegin.Minute;
+                Physiotherapist physiotherapist = physiotherapistRepo.GetPhysiotherapist((int)session.HeadPhysiotherapistId);
+
+                int duration = treatmentPlan.Duration;
                 s.AppointmentBegin = session.AppointmentBegin;
-                s.AppointmentEnd = session.AppointmentBegin.AddMinutes(duration);
-                var currentCulture = CultureInfo.CurrentCulture;
-                var weekNumber1 = currentCulture.Calendar.GetWeekOfYear(
-                    session.AppointmentBegin,
-                    currentCulture.DateTimeFormat.CalendarWeekRule,
-                    currentCulture.DateTimeFormat.FirstDayOfWeek);
-                foreach (Session se in sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id).Where((x) => x.Id != s.Id))
-                {
-                    var weekNumber2 = currentCulture.Calendar.GetWeekOfYear(
-                        se.AppointmentBegin,
-                        currentCulture.DateTimeFormat.CalendarWeekRule,
-                        currentCulture.DateTimeFormat.FirstDayOfWeek);
-                    if (weekNumber1 == weekNumber2)
-                    {
-                        size++;
-                    }
-                }
-                IEnumerable<Session> appointmentsOfPhysio = sessionIRepo.GetSessionsWithPhysiotherapistId((int)physiotherapist.Id).Where((x) => x.Id != session.Id);
-                bool physiotherapistUnavailable = false;
-                foreach (Session appointment in appointmentsOfPhysio)
-                {
-                    bool overlap = ((appointment.AppointmentBegin < s.AppointmentEnd && s.AppointmentBegin < appointment.AppointmentEnd) || s.AppointmentBegin.TimeOfDay < physiotherapist.AvailabilityStart.TimeOfDay || s.AppointmentEnd.TimeOfDay > physiotherapist.AvailabilityEnd.TimeOfDay);
-                    if (overlap)
-                    {
-                        physiotherapistUnavailable = true;
-                    }
-                }
+                session.AppointmentEnd = s.AppointmentBegin.AddMinutes(duration);
+                s.AppointmentEnd = s.AppointmentBegin.AddMinutes(duration);
 
                 PatientFile patientFile = fileRepository.GetPatientFile(treatmentPlan.FileId);
+                bool physiotherapistAvailable = appointmentValidation.timeOfPhysio(s.AppointmentBegin, s.AppointmentEnd,
+                    physiotherapist.AvailabilityStart, physiotherapist.AvailabilityEnd);
 
-                if (size >= treatmentPlan.MaxSessions || physiotherapistUnavailable || patientFile.DateOfEnd < session.AppointmentEnd)
+                List<Session> sessions = sessionIRepo.GetSessionsWithTreatmentPlanId(treatmentPlan.Id).Where(x => x.Id != s.Id).ToList();
+
+                if (appointmentValidation.CheckIfSessionsPerWeekWillBeExceeded(s, treatmentPlan.MaxSessions, sessions) || physiotherapistAvailable || patientFile.DateOfEnd < session.AppointmentEnd)
                 {
-                    if (size >= treatmentPlan.MaxSessions)
+                    if (appointmentValidation.CheckIfSessionsPerWeekWillBeExceeded(s, treatmentPlan.MaxSessions, sessions))
                     {
                         ModelState.AddModelError("", "The maximum amount of sessions this week have been reached.");
                     }
 
-                    if (physiotherapistUnavailable)
+                    if (physiotherapistAvailable)
                     {
                         ModelState.AddModelError("", "The physiotherapist is unavailable at this time of the day. Please try between " + physiotherapist.AvailabilityStart.ToString("HH:mm") + " and " + physiotherapist.AvailabilityEnd.AddMinutes(-treatmentPlan.Duration).ToString("HH:mm") + "!");
                     }
