@@ -378,3 +378,4 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnit
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\AvansFysioAppInfrastructure.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\AvansFysioApp.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\AvansPhysioAppWebAPI.pdb
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

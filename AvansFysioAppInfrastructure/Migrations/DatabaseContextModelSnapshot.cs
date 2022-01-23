@@ -193,7 +193,7 @@ namespace AvansFysioAppInfrastructure.Migrations
                             Email = "ghi@ghi.com",
                             EmployeeId = 321,
                             IsIntern = false,
-                            Name = "Justin Physio",
+                            Name = "Direntwee Physio",
                             Phone = "0687654321"
                         },
                         new

@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AvansPhysioAppWebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class DiagnosisController : ControllerBase

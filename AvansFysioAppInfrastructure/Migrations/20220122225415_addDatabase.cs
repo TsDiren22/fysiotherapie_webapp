@@ -248,7 +248,7 @@ namespace AvansFysioAppInfrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Physiotherapists",
                 columns: new[] { "Id", "AvailabilityEnd", "AvailabilityStart", "BigId", "Email", "EmployeeId", "IsIntern", "Name", "Phone" },
-                values: new object[] { 100, new DateTime(1, 1, 1, 22, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 13, 0, 0, 0, DateTimeKind.Unspecified), 321, "ghi@ghi.com", 321, false, "Justin Physio", "0687654321" });
+                values: new object[] { 100, new DateTime(1, 1, 1, 22, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 13, 0, 0, 0, DateTimeKind.Unspecified), 321, "ghi@ghi.com", 321, false, "Direntwee Physio", "0687654321" });
 
             migrationBuilder.InsertData(
                 table: "Physiotherapists",

@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Threading.Tasks;
 using AvansFysioApp.ExtentionMethods;
+using AvansFysioApp.Models;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Repos;
@@ -23,12 +28,14 @@ namespace AvansFysioApp.Controllers
         private HttpClient client;
         private OperationIRepo operationIRepo;
         private IDiagnosisRepo diagnosisRepo;
+        private readonly IConfiguration config;
 
-        public HomeController(IRepo repository, IDiagnosisRepo diagnosisRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, OperationIRepo operationIRepo, IConfiguration configuration)
+        public HomeController(IConfiguration config, IRepo repository, IDiagnosisRepo diagnosisRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, OperationIRepo operationIRepo, IConfiguration configuration)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
             this.physiotherapistRepo = physiotherapistRepo;
+            this.config = config;
             this.client = new HttpClient()
             {
                 BaseAddress = new Uri(configuration.GetConnectionString("BaseUrl"))
@@ -64,40 +71,39 @@ namespace AvansFysioApp.Controllers
             var physios = physiotherapistRepo.Physiotherapists().Prepend(new Physiotherapist() { Id = -1, Name = "Select a physiotherapist" });
             ViewBag.Physiotherapists = new SelectList(physios, "Id", "Name");
         }
-        
-        private IEnumerable<Diagnosis> GetDiagnosisAsync(string endpoint = "Diagnosis")
-        {
-            var response = client.GetAsync(endpoint);
-            var result = response.Result;
-            IEnumerable<Diagnosis> codes;
-            if (result.IsSuccessStatusCode)
-            {
-                var data = result.Content.ReadAsAsync<List<Diagnosis>>();
-                data.Wait();
-                codes = data.Result;
-            }
-            else codes = Enumerable.Empty<Diagnosis>();
-            return codes;
-        }
 
-        private IEnumerable<Operation> GetOperationAsync(string endpoint = "Operation")
+
+        private async Task<IEnumerable<Diagnosis>>GetDiagnosisAsync(string endpoint = "Diagnosis")
         {
-            var response = client.GetAsync(endpoint);
-            var result = response.Result;
-            IEnumerable<Operation> codes;
-            if (result.IsSuccessStatusCode)
+            var signInResponse = await client.PostAsJsonAsync("api/signin", new SignInRequest
             {
-                var data = result.Content.ReadAsAsync<List<Operation>>();
-                data.Wait();
-                codes = data.Result;
+                Email = config.GetValue<string>("ApiCredentials:UserName"),
+                Password = config.GetValue<string>("ApiCredentials:Password")
+            });
+
+            if (signInResponse.IsSuccessStatusCode)
+            {
+                var responseRaw = await signInResponse.Content.ReadAsStringAsync();
+                var typedResponse = JsonSerializer.Deserialize<SignInResponse>(responseRaw);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", typedResponse.token);
+                var response = client.GetAsync(endpoint);
+                var result = response.Result;
+                IEnumerable<Diagnosis> codes;
+                if (result.IsSuccessStatusCode)
+                {
+                    var data = await client.GetFromJsonAsync<List<Diagnosis>>(endpoint);
+                    codes = data;
+                }
+                else codes = Enumerable.Empty<Diagnosis>();
+                return codes;
             }
-            else codes = Enumerable.Empty<Operation>();
-            return codes;
+            return Enumerable.Empty<Diagnosis>();
         }
+        
 
         [Authorize(Policy = "InternOrPhysioOnly")]
         [HttpGet]
-        public IActionResult FindDiagnosis(string searchString = "", string empty = "")
+        public async Task<IActionResult> FindDiagnosis(string searchString = "", string empty = "")
         {
             AddPhysioToList();
             AddPatientToList();
@@ -106,9 +112,9 @@ namespace AvansFysioApp.Controllers
             {
                 var endpoint = "Diagnosis";
                 endpoint = QueryHelpers.AddQueryString(endpoint, "LocationOnBody", searchString);
-                list = GetDiagnosisAsync(endpoint);
+                list = await GetDiagnosisAsync(endpoint);
             }
-            else list = GetDiagnosisAsync();
+            else list = await GetDiagnosisAsync();
             
             return View(list);
         }
@@ -135,9 +141,37 @@ namespace AvansFysioApp.Controllers
             }
             return RedirectToAction("DetailView", "Patient", new { id = patientFile.PatientId });
         }
-        
+        private async Task<IEnumerable<Operation>> GetOperationAsync(string endpoint = "Operation")
+        {
+
+            var signInResponse = await client.PostAsJsonAsync("api/signin", new SignInRequest
+            {
+                Email = config.GetValue<string>("ApiCredentials:UserName"),
+                Password = config.GetValue<string>("ApiCredentials:Password")
+            });
+
+            if (signInResponse.IsSuccessStatusCode)
+            {
+                var responseRaw = await signInResponse.Content.ReadAsStringAsync();
+                var typedResponse = JsonSerializer.Deserialize<SignInResponse>(responseRaw);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", typedResponse.token);
+                var response = client.GetAsync(endpoint);
+                var result = response.Result;
+                IEnumerable<Operation> codes;
+                if (result.IsSuccessStatusCode)
+                {
+                    var data = await client.GetFromJsonAsync<List<Operation>>(endpoint);
+                    codes = data;
+                }
+                else codes = Enumerable.Empty<Operation>();
+                return codes;
+            }
+            return Enumerable.Empty<Operation>();
+        }
+
+
         [HttpGet]
-        public IActionResult FindOperation(string searchString = "", string empty = "")
+        public async Task<IActionResult> FindOperation(string searchString = "", string empty = "")
         {
             AddPhysioToList();
             AddPatientToList();
@@ -146,9 +180,9 @@ namespace AvansFysioApp.Controllers
             {
                 var endpoint = "Operation";
                 endpoint = QueryHelpers.AddQueryString(endpoint, "Description", searchString);
-                list = GetOperationAsync(endpoint);
+                list = await GetOperationAsync(endpoint);
             }
-            else list = GetOperationAsync();
+            else list = await GetOperationAsync();
             
             return View(list);
         }

@@ -1,3 +1,5 @@
+using System.Security;
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +12,10 @@ using AvansFysioAppInfrastructure.Repos;
 using AvansPhysioAppWebAPI.GraphQl;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AvansPhysioAppWebAPI
 {
@@ -29,6 +34,23 @@ namespace AvansPhysioAppWebAPI
 
             services.AddControllers();
             services.AddDbContext<MasterDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MasterData")));
+            services.AddDbContext<AccountDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Security")));
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                // Reduce the complexity rules. Not because this is best practice, but simply to allow 
+                // an user to be created with a simple password for testing.
+                options.SignIn.RequireConfirmedEmail = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<AccountDbContext>().AddDefaultTokenProviders();
+            // Configure JWT usage.
+            services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.TokenValidationParameters.ValidateAudience = false;
+                options.TokenValidationParameters.ValidateIssuer = false;
+                options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["BearerTokens:Key"]));
+            });
             services.AddScoped<OperationIRepo, OperationRepo>();
             services.AddScoped<IDiagnosisRepo, DiagnosisRepo>();
             services.AddScoped<GraphQlQueries>();
@@ -53,6 +75,7 @@ namespace AvansPhysioAppWebAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
