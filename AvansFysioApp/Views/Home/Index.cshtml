@@ -2,55 +2,13 @@
 @using AvansFysioAppDomain.Domain
 @using System.IO
 @model System.Collections.Generic.IEnumerable<AvansFysioAppDomain.Domain.Patient>
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
 @{
-    var user = await UserManager.GetUserAsync(User);
-    int userId = 0;
-}
-@{
-    bool IsPhysio()
-    {
-        try
-        {
-            foreach (Physiotherapist p in ViewBag.Physio)
-            {
-                if (p.Email.Equals(user.Email))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-    bool IsPatient()
-    {
-        try
-        {
-            foreach (Patient p in ViewBag.Pat)
-            {
-                if (p.Email.Equals(user.Email))
-                {
-                    userId = p.PatientId;
-                    return true;
-                }
-            }
-            return false;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    Patient patient = ViewBag.IsPatient;
 }
 
 <div class="title">Physiotherapy Avans</div>
 
-@if (User.Identity.IsAuthenticated && IsPhysio())
+@if (User.Identity.IsAuthenticated && ViewBag.IsPhysio != null)
 {
         <table width=100%>
             <tr>
@@ -90,13 +48,13 @@
         </table>
 }
 
-@if (User.Identity.IsAuthenticated && IsPatient())
+@if (User.Identity.IsAuthenticated && ViewBag.IsPatient != null)
 {
     <table width=100%>
         <tr>
             <td valign="top">
                 <div style="width: 600px">
-                    <a asp-controller="Patient" asp-action="DetailView" asp-route-id="@userId">
+                    <a asp-controller="Patient" asp-action="DetailView" asp-route-id="@patient.PatientId">
                         <div class="containerImg">
                             <img src="\Photos\Patient3.jpeg" class="image" alt="View your files">
                             <div class="overlay">

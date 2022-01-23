@@ -29,8 +29,9 @@ namespace AvansFysioApp.Controllers
         private OperationIRepo operationIRepo;
         private IDiagnosisRepo diagnosisRepo;
         private readonly IConfiguration config;
+        private UserManager<IdentityUser> userManager;
 
-        public HomeController(IConfiguration config, IRepo repository, IDiagnosisRepo diagnosisRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, OperationIRepo operationIRepo, IConfiguration configuration)
+        public HomeController(UserManager<IdentityUser> userManager, IConfiguration config, IRepo repository, IDiagnosisRepo diagnosisRepo, PatientFileIRepo fileRepository, IPhysiotherapistRepo physiotherapistRepo, OperationIRepo operationIRepo, IConfiguration configuration)
         {
             this.repository = repository;
             this.fileRepository = fileRepository;
@@ -42,10 +43,14 @@ namespace AvansFysioApp.Controllers
             };
             this.operationIRepo = operationIRepo;
             this.diagnosisRepo = diagnosisRepo;
+            this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await userManager.GetUserAsync(User);
+            ViewBag.IsPatient = repository.GetPatientByEmail(user.Email);
+            ViewBag.IsPhysio = physiotherapistRepo.getPhysiotherapistByEmail(user.Email);
             AddPhysioToList();  
             AddPatientToList();
             return View(repository.Patients());
