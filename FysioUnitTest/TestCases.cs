@@ -267,7 +267,7 @@ namespace FysioUnitTest
 
 
             //Assert
-            Assert.True(unavailable);
+            Assert.False(unavailable);
             Assert.False(unavailable2);
         }
 
