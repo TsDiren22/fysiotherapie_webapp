@@ -2,7 +2,7 @@
 
 namespace AvansFysioAppInfrastructure.Migrations.MasterDb
 {
-    public partial class addSecurity : Migration
+    public partial class addMster : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
