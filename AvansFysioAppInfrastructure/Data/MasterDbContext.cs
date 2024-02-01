@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using AvansFysioAppDomain.Domain;
+﻿using AvansFysioAppDomain.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.IO;
 
 
 namespace AvansFysioAppInfrastructure.Data

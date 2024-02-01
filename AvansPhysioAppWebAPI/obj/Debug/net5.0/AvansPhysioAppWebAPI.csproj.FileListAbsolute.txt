@@ -5,7 +5,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhys
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\AvansPhysioAppWebAPI.runtimeconfig.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\AvansPhysioAppWebAPI.runtimeconfig.dev.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\AvansPhysioAppWebAPI.dll
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\ref\AvansPhysioAppWebAPI.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\AvansPhysioAppWebAPI.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
@@ -19,7 +18,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhys
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\AvansPhysioAppWebAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\AvansPhysioAppWebAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\staticwebassets\AvansPhysioAppWebAPI.StaticWebAssets.Manifest.cache
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\staticwebassets\AvansPhysioAppWebAPI.StaticWebAssets.xml
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\scopedcss\bundle\AvansPhysioAppWebAPI.styles.css
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\AvansPhysioAppWebAPI.RazorTargetAssemblyInfo.cache
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\AvansPhysioAppWebAPI.csproj.CopyComplete
@@ -108,3 +106,9 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhys
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\System.IO.Pipelines.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\refint\AvansPhysioAppWebAPI.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\staticwebassets\AvansPhysioAppWebAPI.StaticWebAssets.Pack.cache
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\staticwebassets\msbuild.AvansPhysioAppWebAPI.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\staticwebassets\msbuild.build.AvansPhysioAppWebAPI.props
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.AvansPhysioAppWebAPI.props
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansPhysioAppWebAPI\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.AvansPhysioAppWebAPI.props

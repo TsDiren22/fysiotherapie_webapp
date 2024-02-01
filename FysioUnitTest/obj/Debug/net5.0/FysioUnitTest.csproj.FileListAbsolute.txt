@@ -110,7 +110,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnit
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\FysioUnitTest.runtimeconfig.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\FysioUnitTest.runtimeconfig.dev.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\FysioUnitTest.dll
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\ref\FysioUnitTest.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\FysioUnitTest.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\Castle.Core.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
@@ -379,3 +378,4 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnit
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\AvansFysioApp.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\AvansPhysioAppWebAPI.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\FysioUnitTest\obj\Debug\net5.0\refint\FysioUnitTest.dll

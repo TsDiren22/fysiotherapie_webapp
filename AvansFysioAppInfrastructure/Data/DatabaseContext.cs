@@ -1,13 +1,13 @@
-﻿using System;
-using AvansFysioAppDomain.Domain;
+﻿using AvansFysioAppDomain.Domain;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace AvansFysioAppInfrastructure.Data
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {}
-        
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+
         public DbSet<Patient> Patients { get; set; }
 
         public DbSet<PatientFile> PatientFiles { get; set; }
@@ -39,7 +39,7 @@ namespace AvansFysioAppInfrastructure.Data
                     AvailabilityStart = new DateTime(1, 1, 1, 8, 0, 0),
                     AvailabilityEnd = new DateTime(1, 1, 1, 17, 0, 0)
                 },
-                
+
                 new Physiotherapist()
                 {
                     Id = 100,

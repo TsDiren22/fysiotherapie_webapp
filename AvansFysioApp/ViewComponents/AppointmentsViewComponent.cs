@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using AvansFysioAppInfrastructure.Repos;
+using AvansFysioAppDomainServices.DomainServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvansFysioApp.ViewComponents

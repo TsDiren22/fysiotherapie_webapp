@@ -93,7 +93,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\AvansFysioAppInfrastructure.runtimeconfig.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\AvansFysioAppInfrastructure.runtimeconfig.dev.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\AvansFysioAppInfrastructure.dll
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\ref\AvansFysioAppInfrastructure.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\AvansFysioAppInfrastructure.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\Humanizer.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -164,3 +163,4 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\obj\Debug\net5.0\AvansFysioAppInfrastructure.genruntimeconfig.cache
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\bin\Debug\net5.0\System.IO.Pipelines.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppInfrastructure\obj\Debug\net5.0\refint\AvansFysioAppInfrastructure.dll

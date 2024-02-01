@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppDomainServices.Validation;
-using AvansFysioAppInfrastructure.Repos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

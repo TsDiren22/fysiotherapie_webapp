@@ -5,7 +5,6 @@ using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomain.Domain.DataAnnotations;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppDomainServices.Validation;
-using AvansFysioAppInfrastructure.Repos;
 using Moq;
 using Xunit;
 using Physiotherapist = AvansFysioAppDomain.Domain.Physiotherapist;

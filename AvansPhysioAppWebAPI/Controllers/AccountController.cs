@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AvansPhysioAppWebAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userMgr;

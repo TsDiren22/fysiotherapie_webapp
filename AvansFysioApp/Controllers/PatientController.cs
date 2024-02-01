@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
-using AvansFysioAppInfrastructure.Repos;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AvansFysioApp.Controllers

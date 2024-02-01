@@ -30,7 +30,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\AvansFysioAppDomainServices.runtimeconfig.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\AvansFysioAppDomainServices.runtimeconfig.dev.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\AvansFysioAppDomainServices.dll
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\ref\AvansFysioAppDomainServices.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\AvansFysioAppDomainServices.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\AvansFysioAppDomain.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\AvansFysioAppDomain.pdb
@@ -47,3 +46,4 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\bin\Debug\net5.0\System.IO.Pipelines.dll
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioAppDomainServices\obj\Debug\net5.0\refint\AvansFysioAppDomainServices.dll

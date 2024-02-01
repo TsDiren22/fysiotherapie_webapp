@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AvansFysioAppDomain.Domain;
+﻿using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AvansFysioAppInfrastructure.Repos
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AvansFysioAppDomain.Domain;
 
-namespace AvansFysioAppInfrastructure.Repos
+namespace AvansFysioAppDomainServices.DomainServices
 {
     public interface SessionIRepo
     {

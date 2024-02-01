@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AvansFysioAppDomain.Domain;
+﻿using AvansFysioAppDomain.Domain;
 using AvansFysioAppDomainServices.DomainServices;
 using AvansFysioAppInfrastructure.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AvansFysioAppInfrastructure.Repos
 {
@@ -36,7 +36,7 @@ namespace AvansFysioAppInfrastructure.Repos
             TreatmentPlan exist = this.context.Set<TreatmentPlan>().Find(treatmentPlan.Id);
             this.context.Entry(exist).CurrentValues.SetValues(treatmentPlan);
 
-            this.context.SaveChanges(); 
+            this.context.SaveChanges();
         }
 
         public TreatmentPlan FindTreatmentPlanWithPatientFile(int id)

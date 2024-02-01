@@ -206,7 +206,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\AvansFysioApp.runtimeconfig.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\AvansFysioApp.runtimeconfig.dev.json
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\AvansFysioApp.dll
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\ref\AvansFysioApp.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\AvansFysioApp.pdb
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\AvansFysioApp.Views.dll
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\bin\Debug\net5.0\AvansFysioApp.Views.pdb
@@ -342,7 +341,6 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.RazorAssemblyInfo.cache
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.RazorAssemblyInfo.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\staticwebassets\AvansFysioApp.StaticWebAssets.Manifest.cache
-C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\staticwebassets\AvansFysioApp.StaticWebAssets.xml
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\scopedcss\bundle\AvansFysioApp.styles.css
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.TagHelpers.input.cache
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\AvansFysioApp.TagHelpers.output.cache
@@ -386,3 +384,9 @@ C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysi
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Appointment\EditSession.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Patientfile\TreatmentView.cshtml.g.cs
 C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\Razor\Views\Shared\Components\Appointments\Default.cshtml.g.cs
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\staticwebassets\AvansFysioApp.StaticWebAssets.Pack.cache
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\staticwebassets\msbuild.AvansFysioApp.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\staticwebassets\msbuild.build.AvansFysioApp.props
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.AvansFysioApp.props
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.AvansFysioApp.props
+C:\Users\diren\OneDrive\Bureaublad\Jaar2\SSWFIndividueel\AvansFysioApp\AvansFysioApp\obj\Debug\net5.0\refint\AvansFysioApp.dll
